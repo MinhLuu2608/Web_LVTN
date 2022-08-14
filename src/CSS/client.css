@@ -1,0 +1,15 @@
+.Client__app{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 50px;
+    height: 100%;
+    width: 100%;
+}
+.Client__app--link{
+    color: black;
+    text-decoration: none;
+}
+.Client__app--link:active{
+    color: green;
+}

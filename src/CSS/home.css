@@ -1,0 +1,48 @@
+.Home{
+    display: flex;
+    width: 100%;
+    height: 100%;
+}
+
+
+.Home__left{
+    width: 280px;
+    height: 100%;
+    background-color: aqua;
+}
+
+.Home__left--header{
+    width: 280px;
+    height: 90px;
+    background-color: bisque;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+
+
+.Home__right{
+    width: 85%;
+    height: 100%;
+    background-color: green;
+}
+
+
+.Home__Link{
+    text-decoration: none;
+    color: black;
+}
+
+
+.Home__Link:hover{
+   color: var(--color3);
+
+}
+
+.Private__Link{
+    text-decoration: none;
+    background-color: var(--color3);
+    color: white;
+    border-radius:10px ;
+}

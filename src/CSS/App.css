@@ -1,0 +1,26 @@
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Roboto';
+}
+
+:root{
+  --color1 : #ebebeb;
+  --color2 : #0466c8;
+  --color3 : #1b98e0;
+  --color4 : #a8e8f9;
+  --color5 : #52b69a;
+  --color6 : rgb(4, 41, 122);
+  --color7 : #229631;
+  --color8 : #e8bd21;
+  --color9 : #d90429;
+  --color10 : rgb(200, 250, 205);
+  --color11 :  rgb(208, 242, 255);
+  --color12 : rgb(255, 247, 205);
+  --color13 : rgb(255, 231, 217);
+  --colortext10 : rgb(0, 82, 73);
+  --colortext11 :rgb(4, 41, 122);
+  --colortext12 :   rgb(122, 79, 1);
+  --colortext13 : rgb(122, 12, 46);
+} 
