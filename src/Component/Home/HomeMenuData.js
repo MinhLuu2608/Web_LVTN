@@ -51,26 +51,6 @@ const QuyenChung = [
             },
         ]
     },
-    {
-        // Báo cáo thống kê
-        id: 3,
-        icon: 'fi fi-rr-chart-pie',
-        title: "BÁO CÁO THỐNG KÊ",
-        // Chức năng
-        child: [
-            {
-                title: 'Doanh thu',
-                path: '/home/turnover'
-            },
-            {
-                title: 'Thống kê khách hàng',
-                path: '/home/statistical'
-            },
-        ]
-
-    },
-
-
 ]
 
 

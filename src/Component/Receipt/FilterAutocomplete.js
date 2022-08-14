@@ -2,11 +2,12 @@ import * as React from 'react';
 import TextField from '@mui/material/TextField';
 import Autocomplete from '@mui/material/Autocomplete';
 
-export default function FilterAutocomplete({ label, options, changeOption }) {
+export default function FilterAutocomplete({ disable, label, options, changeOption }) {
 
     return (
         <div>
             <Autocomplete
+                disabled={disable}
                 disableClearable
                 options={options}
                 onChange={(event, newValue) => {

@@ -194,6 +194,8 @@ export default function ReceiptMain() {
     }
     const handleChangeTrangThai = (trangThai) => {
         setSearchTrangThai(trangThai)
+        setSearchThanhToan(-1)
+        setSearchTuyenThu(-1)
         setPage(0)
     }
 
@@ -253,16 +255,16 @@ export default function ReceiptMain() {
     //Thay doi list Xaphuong khi tuyen thu thay doi
     React.useEffect(() => {
         setSearchXaPhuong(-1);
-        fetch("http://localhost:5199/api/xaphuong/tuyenthu/" + searchTuyenThu)
+        fetch("http://localhost:5199/api/xaphuong/" + searchQuanHuyen)
             .then(response => response.json())
             .then(function (xaPhuongList) {
                 setXaPhuongList(xaPhuongList);
             });
-    }, [searchTuyenThu])
+    }, [searchQuanHuyen])
 
     React.useEffect(() => {
-        let optionURL = searchQuanHuyen + "/" + searchTuyenThu + "/" + searchXaPhuong + "/" + searchKhachHang + "/" +
-            searchLoaiKhachHang + "/" + searchNhanVien + "/" + searchTrangThai
+        let optionURL = searchQuanHuyen + "/" + searchTuyenThu + "/" + searchXaPhuong + "/" + searchKyThu + "/" +
+            searchKhachHang + "/" + searchLoaiKhachHang + "/" + searchThanhToan + "/" + searchNhanVien + "/" + searchTrangThai
         fetch("http://localhost:5199/api/phieuthu/" + optionURL)
             .then(response => response.json())
             .then(function (phieuthu) {
@@ -273,7 +275,8 @@ export default function ReceiptMain() {
                     dispatch(setMessage("Failed"))
                     dispatch(setSeverity("error"))
                 })
-    }, [updateState, searchQuanHuyen, searchTuyenThu, searchXaPhuong, searchKhachHang, searchLoaiKhachHang, searchNhanVien, searchTrangThai, dispatch])
+    }, [updateState, searchQuanHuyen, searchTuyenThu, searchXaPhuong, searchKyThu,
+        searchKhachHang, searchLoaiKhachHang, searchThanhToan, searchNhanVien, searchTrangThai, dispatch])
 
     return (
         <>

@@ -6,6 +6,7 @@ import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import Stack from '@mui/material/Stack';
 import FilterAutocomplete from './FilterAutocomplete';
+import ReceiptFilterStatus from './ReceiptFilterStatus';
 
 export default function ReceiptFilter({
     thanhToan, kyThu, khachHang, loaiKhachHang, tuyenThu, trangThai, nhanVien, quanHuyen, xaPhuong,
@@ -54,20 +55,16 @@ export default function ReceiptFilter({
                             <MenuItem key="all-QuanHuyen" value={-1}>Tất cả</MenuItem>
                         </Select>
                     </FormControl>
-                    <FormControl style={{ width: 270 }}>
-                        <InputLabel>Tuyến thu</InputLabel>
+                    <FormControl style={{ width: 200 }}>
+                        <InputLabel>Trạng thái</InputLabel>
                         <Select
-                            labelId="demo-simple-select-label"
-                            value={tuyenThu}
-                            label="Tuyến thu"
-                            onChange={event => changeTuyenThu(event.target.value)}
+                            value={trangThai}
+                            label="Trạng thái"
+                            onChange={event => changeTrangThai(event.target.value)}
                         >
-                            {
-                                tuyenThuList.map(tuyenThu => (
-                                    <MenuItem key={tuyenThu.IDTuyenThu} value={tuyenThu.IDTuyenThu}> {tuyenThu.TenTuyenThu} </MenuItem>
-                                ))
-                            }
-                            <MenuItem key="all-TuyenThu" value={-1}>Tất cả</MenuItem>
+                            <MenuItem key="1" value={1}>Đã thu</MenuItem>
+                            <MenuItem key="2" value={2}>Chưa thu</MenuItem>
+                            <MenuItem key="all-Loai" value={-1}>Tất cả</MenuItem>
                         </Select>
                     </FormControl>
                     <FormControl style={{ width: 180 }}>
@@ -103,7 +100,7 @@ export default function ReceiptFilter({
                             <MenuItem key="all-Loai" value={-1}>Tất cả</MenuItem>
                         </Select>
                     </FormControl>
-                    <FilterAutocomplete label={"Tên khách hàng"} options={khachHangOptions} changeOption={changeKhachHang} />
+                    <FilterAutocomplete disable={false} label={"Tên khách hàng"} options={khachHangOptions} changeOption={changeKhachHang} />
                     <FormControl style={{ width: 200 }}>
                         <InputLabel>Loại khách hàng</InputLabel>
                         <Select
@@ -121,36 +118,29 @@ export default function ReceiptFilter({
                     </FormControl>
                 </Stack>
                 <Stack direction="row" justifyContent="center" alignItems="center" spacing={3} >
-                    <FormControl style={{ width: 230 }}>
-                        <InputLabel>Hình thức thanh toán</InputLabel>
-                        <Select
-                            value={thanhToan}
-                            label="Hình thức thanh toán"
-                            onChange={event => changeThanhToan(event.target.value)}
-                        >
-                            <MenuItem key="1" value={1}>Trực tiếp</MenuItem>
-                            <MenuItem key="2" value={2}>Online</MenuItem>
-                            <MenuItem key="all-ThanhToan" value={-1}>Tất cả</MenuItem>
-                        </Select>
-                    </FormControl>
                     {
-
-                        thanhToan === 2
-                            ? <></>
-                            : <FilterAutocomplete label={"Tên nhân viên"} options={nhanVienOptions} changeOption={changeNhanVien} />
+                        trangThai === 2 || trangThai === -1
+                            ? <ReceiptFilterStatus
+                                disable={true}
+                                tuyenThu={tuyenThu}
+                                changeTuyenThu={changeTuyenThu}
+                                tuyenThuList={tuyenThuList}
+                                thanhToan={thanhToan}
+                                changeThanhToan={changeThanhToan}
+                                nhanVienOptions={nhanVienOptions}
+                                changeNhanVien={changeNhanVien}
+                            />
+                            : <ReceiptFilterStatus
+                                disable={false}
+                                tuyenThu={tuyenThu}
+                                changeTuyenThu={changeTuyenThu}
+                                tuyenThuList={tuyenThuList}
+                                thanhToan={thanhToan}
+                                changeThanhToan={changeThanhToan}
+                                nhanVienOptions={nhanVienOptions}
+                                changeNhanVien={changeNhanVien}
+                            />
                     }
-                    <FormControl style={{ width: 200 }}>
-                        <InputLabel>Trạng thái</InputLabel>
-                        <Select
-                            value={trangThai}
-                            label="Trạng thái"
-                            onChange={event => changeTrangThai(event.target.value)}
-                        >
-                            <MenuItem key="1" value={1}>Đã thu</MenuItem>
-                            <MenuItem key="2" value={2}>Chưa thu</MenuItem>
-                            <MenuItem key="all-Loai" value={-1}>Tất cả</MenuItem>
-                        </Select>
-                    </FormControl>
                 </Stack>
             </Stack>
         </Box>
