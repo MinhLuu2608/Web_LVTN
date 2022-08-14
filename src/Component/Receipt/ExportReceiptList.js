@@ -48,31 +48,37 @@ export default function ExportReceiptList({ hoadon }) {
         handleClose()
     };
 
-    function getFormattedDate(date) {
-        var year = date.getFullYear();
+    function getFormattedDate(dateString) {
+        if (dateString === null) return "Chưa thu"
 
-        var month = (1 + date.getMonth()).toString();
-        month = month.length > 1 ? month : '0' + month;
+        else {
+            const date = new Date(dateString)
+            var year = date.getFullYear()
 
-        var day = date.getDate().toString();
-        day = day.length > 1 ? day : '0' + day;
+            var month = (1 + date.getMonth()).toString()
+            month = month.length > 1 ? month : '0' + month
 
-        return day + '/' + month + '/' + year;
+            var day = date.getDate().toString()
+            day = day.length > 1 ? day : '0' + day
+
+            return day + '/' + month + '/' + year
+        }
     }
+
 
     const handleExportCustomer = function (hoadon) {
         var chosenExportCustomers = [];
         if (hoadon.length > 0) {
             hoadon
                 .map(function (phieu) {
+                    console.log(phieu.NgayThu)
                     var chosenExportCustomer = {
-                        "ID HoaDon": phieu.IDHoaDon,
+                        "Mã hoá đơn": phieu.MaSoPhieu,
+                        "Mã khách hàng": phieu.MaKhachHang,
                         "Tên Khách Hàng": phieu.HoTenKH,
-                        "Tuyến Thu": phieu.TenTuyenThu,
                         "Kỳ Thu": phieu.TenKyThu,
-                        "Tên Nhân Viên": phieu.HoTen,
-                        "Ngày tạo": getFormattedDate(new Date(phieu.NgayTao)),
-                        "Ngày thu": getFormattedDate(new Date(phieu.NgayThu)),
+                        "Ngày tạo": getFormattedDate(phieu.NgayTao),
+                        "Ngày thu": getFormattedDate(phieu.NgayThu),
                     }
                     chosenExportCustomers.push(chosenExportCustomer)
                 }

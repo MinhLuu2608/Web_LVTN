@@ -117,7 +117,6 @@ export default function ReceiptMain() {
 
     const [, dispatch] = React.useContext(SnackBarContext)
 
-
     const [rows, setRows] = React.useState([])
     const [page, setPage] = React.useState(0)
     const [rowsPerPage, setRowsPerPage] = React.useState(10)
@@ -359,7 +358,7 @@ export default function ReceiptMain() {
                                 <StyledTableCell align="center">{row.TenKyThu}</StyledTableCell>
                                 <StyledTableCell align="center">
                                     <ButtonGroup>
-                                        <ReceiptDetailModal receipt={row} />
+                                        <ReceiptDetailModal receiptID={row.IDHoaDon} />
                                         <IconButton onClick={() => handleDelete(row.IDHoaDon)}>
                                             <Tooltip sx={{ color: 'var(--color9)' }} title="Kết thúc">
                                                 <DeleteIcon />
