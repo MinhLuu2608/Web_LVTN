@@ -62,8 +62,9 @@ export default function DistrictFormDelete({ district, handleResetPage }) {
                     // Anything else
                 }
             });
-        handleClose();
+
         handleResetPage();
+        handleClose();
     };
 
     return (

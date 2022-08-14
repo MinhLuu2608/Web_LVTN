@@ -62,8 +62,8 @@ export default function WardFormDelete({ ward, handleResetPage }) {
                     // Anything else
                 }
             });
-        handleClose();
         handleResetPage();
+        handleClose();
     };
 
     return (
