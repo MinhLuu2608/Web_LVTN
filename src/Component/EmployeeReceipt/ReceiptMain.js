@@ -28,6 +28,7 @@ import ButtonGroup from '@mui/material/ButtonGroup';
 import ReceiptDetailModal from './ReceiptDetailModal';
 import Button from '@mui/material/Button';
 
+
 function TablePaginationActions(props) {
     const theme = useTheme();
     const { count, page, rowsPerPage, onPageChange } = props;
@@ -164,9 +165,7 @@ export default function ReceiptMain() {
         setPage(0)
     }
 
-    const reRender = () => setUpdateState(!updateState);
-
-    const handleXacNhan = (IDPhieu, IDNhanVien) => {
+    const handleXacNhan = (IDPhieu, IDKhachHang, IDNhanVien) => {
 
         fetch("http://localhost:5199/api/PhieuThu", {
             method: 'PUT',
@@ -176,13 +175,15 @@ export default function ReceiptMain() {
             },
             body: JSON.stringify({
                 IDPhieu: IDPhieu,
+                IDKhachHang: IDKhachHang,
                 IDNhanVien: IDNhanVien
             })
         })
             .then(res => res.json())
             .then((result) => {
-                reRender();
-                alert(result);
+                dispatch(setOpenSnackBar())
+                dispatch(setMessage(result.message))
+                dispatch(setSeverity(result.severity))
             });
     }
 
@@ -218,7 +219,7 @@ export default function ReceiptMain() {
                     dispatch(setMessage("Failed"))
                     dispatch(setSeverity("error"))
                 })
-    }, [searchKyThu, searchKhachHang, searchLoaiKhachHang, searchThanhToan, searchTrangThai, dispatch])
+    }, [updateState, searchKyThu, searchKhachHang, searchLoaiKhachHang, searchThanhToan, searchTrangThai, dispatch])
 
     return (
         <>
@@ -299,7 +300,10 @@ export default function ReceiptMain() {
                                                         }
                                                     }}
                                                     variant="outline"
-                                                    onClick={() => handleXacNhan(row.IDPhieu, cookie)}
+                                                    onClick={() => {
+                                                        handleXacNhan(row.IDHoaDon, row.IDKhachHang, cookie)
+                                                        setUpdateState(!updateState)
+                                                    }}
                                                 >
                                                     Xác nhận
                                                 </Button>
