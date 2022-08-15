@@ -1,3 +1,4 @@
+import * as React from 'react';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 import Stack from '@mui/material/Stack';
@@ -9,8 +10,10 @@ import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
+import { useReactToPrint } from 'react-to-print';
+import Button from '@mui/material/Button';
 
-export default function ReceiptDetailOffline({ receipt, handleClose }) {
+export default function ReceiptDetailOffline({ receipt, handleClose, isExport }) {
 
     const style = {
 
@@ -23,11 +26,11 @@ export default function ReceiptDetailOffline({ receipt, handleClose }) {
         borderRadius: 2,
         boxShadow: 24,
         p: 1,
-        height: 550,
+        height: '90%',
         display: 'block',
         marginTop: 4,
         marginBottom: 5,
-        textAlign: 'left',
+        textAlign: 'left'
     };
 
     const Info__style = {
@@ -38,6 +41,12 @@ export default function ReceiptDetailOffline({ receipt, handleClose }) {
         marginLeft: 10
     };
 
+
+    const componentRef = React.useRef();
+    const handlePrint = useReactToPrint({
+        content: () => componentRef.current,
+        copyStyles: true
+    });
 
     function change(date) {
         if (!date) {
@@ -55,7 +64,7 @@ export default function ReceiptDetailOffline({ receipt, handleClose }) {
                 <Stack direction="column" spacing={2} alignItems="flex-end">
                     <IconButton variant="contained" onClick={handleClose}><CloseIcon /></IconButton>
                 </Stack>
-                <Box>
+                <Box ref={componentRef}>
                     <Typography variant="h6" style={{ display: 'inline-block', textAlign: "left" }}>
                         <img src="/static/media/Logo.d35d7c77ea0ad085e30c.jpg" alt="Logo" style={{ width: 70, textAlign: "left", marginLeft: 70 }}></img>
                     </Typography>
@@ -78,7 +87,7 @@ export default function ReceiptDetailOffline({ receipt, handleClose }) {
                         <Typography variant="h6" style={{ fontSize: 14, width: 800, paddingBottom: 0, paddingRight: 40 }}>
                             <b>SĐT Nhân Viên: </b> {receipt.SoDienThoai}
                         </Typography>
-                        <Typography variant="h6" style={{ fontSize: 14, width: 800, paddingBottom: 0, paddingRight: 40 }}>
+                        <Typography variant="h6" style={{ fontSize: 14, width: 900, paddingBottom: 0, paddingRight: 40 }}>
                             <b>Địa chỉ KH: </b>{receipt.DiaChi}, Phường {receipt.TenXaPhuong}, {receipt.TenQuanHuyen}
                         </Typography>
                         <TableContainer sx={{ width: 700, border: 'solid black 1px', marginTop: 1 }}>
@@ -108,6 +117,17 @@ export default function ReceiptDetailOffline({ receipt, handleClose }) {
                         </Typography>
                     </Box>
                 </Box>
+                <Stack direction="row" alignItems="center" justifyContent="space-evenly" paddingTop={3}>
+                    {isExport === true
+                        ?
+                        <>
+                            <Button variant="contained" onClick={handlePrint}>In hóa đơn</Button>
+                            <Button variant="contained" onClick={handleClose}>Huỷ</Button>
+                        </>
+                        :
+                        <></>
+                    }
+                </Stack>
             </Box>
         </>
     )

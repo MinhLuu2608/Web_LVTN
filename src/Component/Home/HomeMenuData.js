@@ -5,7 +5,7 @@ const QuyenChung = [
         // Quan Tri vien
         id: 1,
         icon: 'fi fi-rr-address-book',
-        title: "QUẢN TRỊ VIÊN",
+        title: "QUẢN LÝ",
         // Chức năng
         child: [
             {

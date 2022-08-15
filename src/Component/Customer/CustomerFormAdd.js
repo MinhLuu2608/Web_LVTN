@@ -5,14 +5,11 @@ import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 import Stack from '@mui/material/Stack';
 import Modal from '@mui/material/Modal';
-import { FormControl, InputLabel, TextField } from '@mui/material';
+import { TextField } from '@mui/material';
 import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
 import axios from 'axios';
 import CloseIcon from '@mui/icons-material/Close';
-import { FlareSharp } from '@mui/icons-material';
-import Snackbar from '@mui/material/Snackbar';
-import MuiAlert from '@mui/material/Alert';
 import SnackBarContext from '../SnackBar/SnackBarContext';
 import { setMessage, setOpenSnackBar, setSeverity } from '../SnackBar/SnackBarAction';
 
@@ -40,7 +37,7 @@ const Info__style = {
 const AddForm__style = {
     display: 'flex',
 };
-export default function CustomerFormAdd({ customer, handleResetPage, importdistricts, importwards}) {
+export default function CustomerFormAdd({ customer, handleResetPage, importdistricts, importwards }) {
 
     const client = axios.create({
         baseURL: "http://localhost:5199/api/KhachHang"
@@ -53,8 +50,6 @@ export default function CustomerFormAdd({ customer, handleResetPage, importdistr
     const [Name, setName] = React.useState('');
 
     const [CCCD, setCCCD] = React.useState('');
-
-    const [DayGrant, setDayGrant] = React.useState('2020-01-01');
 
     const [Address, setAddress] = React.useState('');
 
@@ -90,9 +85,6 @@ export default function CustomerFormAdd({ customer, handleResetPage, importdistr
     }
     const handleInputCCCD = (event) => {
         setCCCD(event.target.value)
-    }
-    const handleInputDayGrant = (event) => {
-        setDayGrant(event.target.value)
     }
     const handleInputAddress = (event) => {
         setAddress(event.target.value)
@@ -133,23 +125,7 @@ export default function CustomerFormAdd({ customer, handleResetPage, importdistr
         return year + '-' + month + '-' + day;
     }
 
-    const Alert = React.forwardRef(function Alert(props, ref) {
-        return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
-    });
 
-    const [openAlert, setOpenAlert] = React.useState(false);
-
-    const handleClickAlert = () => {
-        setOpenAlert(true);
-    };
-
-    const handleCloseAlert = (event, reason) => {
-        if (reason === 'clickaway') {
-            return;
-        }
-
-        setOpenAlert(false);
-    };
     const handleSubmit = () => {
         const current = new Date();
         const date = getFormattedDate(current);
@@ -158,8 +134,6 @@ export default function CustomerFormAdd({ customer, handleResetPage, importdistr
         let validName = false;
         let validCCCD = false;
         let validNumberCCCD = false;
-        let validDayGrant = false;
-        let validNumberDayGrant = false;
         let validAddress = false;
         let validChosenDistrict = false;
         let validChosenWard = false;
@@ -172,10 +146,6 @@ export default function CustomerFormAdd({ customer, handleResetPage, importdistr
         if (CCCD === "") {
             thongbao = thongbao + "\nCăn Cước Công Dân"
         } else validCCCD = true
-
-        if (DayGrant === "") {
-            thongbao = thongbao + "\nNgày Cấp"
-        } else validDayGrant = true
 
         if (Address === "") {
             thongbao = thongbao + "\nĐịa Chỉ"
@@ -197,60 +167,18 @@ export default function CustomerFormAdd({ customer, handleResetPage, importdistr
             thongbao = thongbao + "\nCCCD phải đúng 12 ký tự"
         } else validNumberCCCD = true
 
-        if (DayGrant > date) {
-            thongbao = thongbao + "\nNgày Cấp Phải Trước Ngày Hiện tại"
-        } else validNumberDayGrant = true
-
-        console.log("DayGrant" + DayGrant)
-        console.log("date" + date)
-        if (validName && validCCCD && validNumberCCCD && validDayGrant && validAddress && validChosenDistrict && validChosenWard && validChosenCustomerType && validNumberDayGrant) {
-            addPosts(Name, Address, CCCD, DayGrant, chosenWard, chosenCustomerType, date);
+        if (validName && validCCCD && validNumberCCCD && validAddress && validChosenDistrict && validChosenWard && validChosenCustomerType) {
+            addPosts(Name, Address, CCCD, chosenWard, chosenCustomerType, date);
         } else {
             alert(thongbao);
         }
-        // if (Name === "") {
-        //     alert('Hãy Điền Họ và Tên')
-        // } else {
-        //     if (CCCD === "") {
-        //         alert('Hãy Điền Căn Cước Công Dân')
-        //     } else {
-        //         if (CCCD.length != 12) {
-        //             alert('Hãy Điền Căn Cước Công Dân Đủ 12 ký tự')
-        //         } else {
-        //             if (DayGrant === "") {
-        //                 alert('Hãy Điền Ngày Cấp CCCD')
-        //             } else {
-        //                 if (Address === "") {
-        //                     alert('Hãy Điền Địa Chỉ')
-        //                 } else {
-        //                     if (chosenDistrict === 0) {
-        //                         alert('Hãy Điền Quận Huyện')
-        //                     } else {
-        //                         if (chosenWard === 0) {
-        //                             alert('Hãy Điền Xã Phường')
-        //                         } else {
-        //                             if (chosenCustomerType === 0) {
-        //                                 alert('Hãy Điền Loại Khách Hàng')
-        //                             } else {
-        //                                 const current = new Date();
-        //                                 const date = `${current.getFullYear()}-${current.getMonth() + 1}-${current.getDate()}`;
-        //                                 addPosts(Name, Address, CCCD, DayGrant, chosenWard, chosenCustomerType, date);
-        //                             }
-        //                         }
-        //                     }
-        //                 }
-        //             }
-        //         }
-        //     }
-        // }
     };
-    const addPosts = (Name, Address, CCCD, DayGrant, chosenWard, chosenCustomerType, date) => {
+    const addPosts = (Name, Address, CCCD, chosenWard, chosenCustomerType, date) => {
         client
             .post('', {
                 "hoTenKH": Name,
                 "DiaChi": Address,
                 "cccd": CCCD,
-                "ngayCap": DayGrant,
                 "idXaPhuong": chosenWard,
                 "idLoaiKhachHang": chosenCustomerType,
                 "ngayTao": date,
@@ -276,7 +204,6 @@ export default function CustomerFormAdd({ customer, handleResetPage, importdistr
         setName('');
         setAddress('');
         setCCCD('');
-        setDayGrant('');
         setChosenWard(0);
         handleResetPage();
         setChosenCustomerType(0);
@@ -311,20 +238,11 @@ export default function CustomerFormAdd({ customer, handleResetPage, importdistr
                             </TextField>
                             <TextField
                                 required
-                                type="number"
+                                type="tel"
                                 label="Số CCCD"
                                 variant="outlined"
                                 style={{ marginTop: '20px' }}
                                 onChange={handleInputCCCD}
-                            >
-                            </TextField>
-                            <TextField
-                                required
-                                type="date"
-                                label="Ngày Cấp CCCD" variant="outlined"
-                                defaultValue="2020-01-01"
-                                style={{ marginTop: '20px' }}
-                                onChange={handleInputDayGrant}
                             >
                             </TextField>
                             <TextField
@@ -387,7 +305,7 @@ export default function CustomerFormAdd({ customer, handleResetPage, importdistr
                             </Select>
                         </Box>
                     </Box>
-                    <Stack direction="column" spacing={2} alignItems="flex-end">
+                    <Stack sx={{ padding: 2 }} direction="column" spacing={2} alignItems="flex-end">
                         <Button variant="contained" onClick={handleSubmit}>Thêm Khách Hàng</Button>
                     </Stack>
                 </Box>

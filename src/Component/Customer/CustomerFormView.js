@@ -57,6 +57,13 @@ export default function CustomerFormView({ customer }) {
 
     const handleClose = () => setOpen(false);
     const NgayTao = new Date(customer.NgayTao);
+    let ngayKetThuc
+
+    if (customer.NgayKetThuc !== null) {
+        ngayKetThuc = getFormattedDate(new Date(customer.NgayKetThuc))
+    } else {
+        ngayKetThuc = "Đang sử dụng"
+    }
     return (
         <div>
             <IconButton onClick={handleOpen} variant="text" color="primary">
@@ -90,7 +97,7 @@ export default function CustomerFormView({ customer }) {
                             Ngày Tạo: <Typography variant="inherit">{getFormattedDate(NgayTao)}</Typography>
                         </Typography>
                         <Typography variant="h6" style={{ width: 300, paddingBottom: 40, paddingRight: 40 }}>
-                            Loại Khách Hàng: <Typography variant="inherit">{customer.TenLoai}</Typography>
+                            Ngày Kết thúc: <Typography variant="inherit">{ngayKetThuc}</Typography>
                         </Typography>
                         <Typography variant="h6" style={{ width: 700, paddingBottom: 40, paddingRight: 40 }}>
                             Địa Chỉ: <Typography variant="inherit">{customer.DiaChi}, {customer.TenXaPhuong} , {customer.TenQuanHuyen}</Typography>
@@ -98,11 +105,14 @@ export default function CustomerFormView({ customer }) {
                         <Typography variant="h6" style={{ width: 300, paddingBottom: 40, paddingRight: 40 }}>
                             Số CCCD: <Typography variant="inherit">{customer.CCCD}</Typography>
                         </Typography>
-                        <Typography variant="h6" style={{ width: 1000, paddingBottom: 40, paddingRight: 40 }}>
+                        <Typography variant="h6" style={{ width: 700, paddingBottom: 40, paddingRight: 40 }}>
                             Các account đã liên kết:
                             <Typography variant="inherit">
                                 {accountLinked}
                             </Typography>
+                        </Typography>
+                        <Typography variant="h6" style={{ width: 300, paddingBottom: 40, paddingRight: 40 }}>
+                            Loại Khách Hàng: <Typography variant="inherit">{customer.TenLoai}</Typography>
                         </Typography>
                     </Box>
                 </Box>

@@ -245,7 +245,7 @@ export default function CustomerFormEdit({ customer, handleResetPage, importdist
                             </TextField>
                             <TextField
                                 required
-                                type="number"
+                                type="tel"
                                 label="Số CCCD"
                                 defaultValue={customer.CCCD}
                                 inputProps={{ inputMode: 'numeric', pattern: '[0-9]*' }}

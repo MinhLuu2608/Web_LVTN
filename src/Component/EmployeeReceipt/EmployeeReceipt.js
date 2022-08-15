@@ -1,23 +1,23 @@
 import React from 'react'
-import ReceiptList from './ReceiptList';
 import "../../CSS/App.css";
 import Typography from '@mui/material/Typography';
+import ReceiptMain from './ReceiptMain';
 function EmployeeReceipt() {
   return (
     <div>
       <Typography variant="p"
-                sx={
-                    {
-                        fontSize: 30,
-                        color: "var(--color2)",
-                        fontWeight: "bold"
-                    }
-                }
-            >
-                Danh sách phiếu thu
-            </Typography>
+        sx={
+          {
+            fontSize: 30,
+            color: "var(--color2)",
+            fontWeight: "bold"
+          }
+        }
+      >
+        Danh sách phiếu thu
+      </Typography>
       <br></br>
-      <ReceiptList />
+      <ReceiptMain />
     </div>
   )
 }

@@ -64,11 +64,11 @@ export default function ExportFileExcel({ customers, handleResetPage }) {
         if (Customers.length > 0) {
             Customers
                 .map(function (customer) {
-                    var ngaychinhsua
-                    if (customer.NgayChinhSua !== null) {
-                        ngaychinhsua = getFormattedDate(new Date(customer.NgayChinhSua))
+                    var ngayKetThuc
+                    if (customer.NgayKetThuc !== null) {
+                        ngayKetThuc = getFormattedDate(new Date(customer.NgayKetThuc))
                     } else {
-                        ngaychinhsua = "Chưa được chỉnh sửa"
+                        ngayKetThuc = ""
                     }
                     var trangthai
                     if (customer.TrangThai === 1) {
@@ -81,14 +81,13 @@ export default function ExportFileExcel({ customers, handleResetPage }) {
                         "Mã Khách Hàng": customer.MaKhachHang,
                         "Họ Tên Khách Hàng": customer.HoTenKH,
                         "Căn Cước Công Dân": customer.CCCD,
-                        "Loại Khách Hàng" : customer.TenLoai,
-                        "Ngày Cấp CCCD": getFormattedDate(new Date(customer.NgayCap)),
+                        "Loại Khách Hàng": customer.TenLoai,
                         "Địa Chỉ": customer.DiaChi,
                         "Xã Phường": customer.TenXaPhuong,
                         "Quận Huyện": customer.TenQuanHuyen,
                         "Ngày Tạo Khách Hàng": getFormattedDate(new Date(customer.NgayTao)),
-                        "Ngày Chỉnh Sửa Khách Hàng": ngaychinhsua,
-                        "Trạng Thái": trangthai
+                        "Trạng Thái": trangthai,
+                        "Ngày ngừng sử dụng": ngayKetThuc
                     }
                     chosenExportCustomers.push(chosenExportCustomer)
                 }
