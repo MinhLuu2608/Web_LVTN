@@ -53,8 +53,6 @@ export default function CustomerFormEdit({ customer, handleResetPage, importdist
 
     const [CCCD, setCCCD] = React.useState('');
 
-    const [DayGrant, setDayGrant] = React.useState('');
-
     const [Address, setAddress] = React.useState('');
 
     const [chosenDistrict, setChosenDistrict] = React.useState(0);
@@ -79,19 +77,15 @@ export default function CustomerFormEdit({ customer, handleResetPage, importdist
 
     const handleOpen = () => {
         setOpen(true);
-        setDistricts(importdistricts);
-        setWards(importwards);
-    }
-
-    React.useEffect(() => {
         setName(customer.HoTenKH);
         setCCCD(customer.CCCD);
-        setDayGrant(customer.NgayCap);
         setAddress(customer.DiaChi);
         setChosenDistrict(customer.IDQuanHuyen);
         setChosenWard(customer.IDXaPhuong);
         setChosenCustomerType(customer.IDLoaiKhachHang);
-    }, [customer.HoTenKH, customer.CCCD, customer.NgayCap, customer.DiaChi, customer.IDQuanHuyen, customer.IDXaPhuong, customer.IDLoaiKhachHang])
+        setDistricts(importdistricts);
+        setWards(importwards);
+    }
 
     const [open, setOpen] = React.useState(false);
 
@@ -101,9 +95,6 @@ export default function CustomerFormEdit({ customer, handleResetPage, importdist
     }
     const handleInputCCCD = (event) => {
         setCCCD(event.target.value)
-    }
-    const handleInputDayGrant = (event) => {
-        setDayGrant(event.target.value)
     }
     const handleInputAddress = (event) => {
         setAddress(event.target.value)
@@ -132,28 +123,13 @@ export default function CustomerFormEdit({ customer, handleResetPage, importdist
             )
         }
     }
-    function getFormattedDate(date) {
-        var year = date.getFullYear();
 
-        var month = (1 + date.getMonth()).toString();
-        month = month.length > 1 ? month : '0' + month;
-
-        var day = date.getDate().toString();
-        day = day.length > 1 ? day : '0' + day;
-        return year + '-' + month + '-' + day;
-    }
-    const DayGrantCustomer = new Date(customer.NgayCap)
     const handleSubmit = () => {
-
-        const current = new Date();
-        const date = getFormattedDate(current);
 
         let thongbao = "Hãy thêm thông tin đúng dạng cho :";
         let validName = false;
         let validCCCD = false;
         let validNumberCCCD = false;
-        let validDayGrant = false;
-        let validNumberDayGrant = false;
         let validAddress = false;
         let validChosenDistrict = false;
         let validChosenWard = false;
@@ -167,10 +143,6 @@ export default function CustomerFormEdit({ customer, handleResetPage, importdist
         if (CCCD === "") {
             thongbao = thongbao + "\nCăn Cước Công Dân"
         } else validCCCD = true
-
-        if (DayGrant === "") {
-            thongbao = thongbao + "\nNgày Cấp"
-        } else validDayGrant = true
 
         if (Address === "") {
             thongbao = thongbao + "\nĐịa Chỉ"
@@ -192,27 +164,21 @@ export default function CustomerFormEdit({ customer, handleResetPage, importdist
             thongbao = thongbao + "\nCCCD phải đúng 12 ký tự"
         } else validNumberCCCD = true
 
-        if (DayGrant > date) {
-            thongbao = thongbao + "\nNgày Cấp Phải Trước Ngày Hiện tại"
-        } else validNumberDayGrant = true
-
-        if (validName && validCCCD && validNumberCCCD && validDayGrant && validAddress && validChosenDistrict && validChosenWard && validChosenCustomerType && validNumberDayGrant) {
-            addPosts(Name, Address, CCCD, DayGrant, chosenWard, chosenCustomerType, date);
+        if (validName && validCCCD && validNumberCCCD && validAddress && validChosenDistrict && validChosenWard && validChosenCustomerType) {
+            addPosts(Name, Address, CCCD, chosenWard, chosenCustomerType);
         } else {
             alert(thongbao);
         }
     };
-    const addPosts = (Name, Address, CCCD, DayGrant, chosenWard, chosenCustomerType, date) => {
+    const addPosts = (Name, Address, CCCD, chosenWard, chosenCustomerType) => {
         client
             .put('', {
                 "hoTenKH": Name,
                 "DiaChi": Address,
                 "cccd": CCCD,
-                "ngayCap": DayGrant,
                 "idXaPhuong": chosenWard,
                 "idLoaiKhachHang": chosenCustomerType,
                 "maKhachHang": customer.MaKhachHang,
-                "ngayChinhSua": date,
                 "idKhachHang": customer.IDKhachHang
             })
             .then((response) => {
@@ -236,7 +202,6 @@ export default function CustomerFormEdit({ customer, handleResetPage, importdist
         setName('');
         setAddress('');
         setCCCD('');
-        setDayGrant('');
         setChosenWard(0);
         setChosenCustomerType(0);
         setChosenDistrict(0);
@@ -287,15 +252,6 @@ export default function CustomerFormEdit({ customer, handleResetPage, importdist
                                 variant="outlined"
                                 style={{ marginTop: '20px' }}
                                 onChange={handleInputCCCD}
-                            >
-                            </TextField>
-                            <TextField
-                                required
-                                type="date"
-                                label="Ngày Cấp CCCD" variant="outlined"
-                                defaultValue={getFormattedDate(DayGrantCustomer)}
-                                style={{ marginTop: '20px' }}
-                                onChange={handleInputDayGrant}
                             >
                             </TextField>
                             <TextField
@@ -360,7 +316,7 @@ export default function CustomerFormEdit({ customer, handleResetPage, importdist
                             </Select>
                         </Box>
                     </Box>
-                    <Stack direction="column" spacing={2} alignItems="flex-end">
+                    <Stack sx={{ padding: 3 }} direction="column" spacing={2} alignItems="flex-end">
                         <Button variant="contained" onClick={handleSubmit}>Xác Nhận</Button>
                     </Stack>
                 </Box>

@@ -41,12 +41,21 @@ function getFormattedDate(date) {
 export default function CustomerFormView({ customer }) {
     const [open, setOpen] = React.useState(false);
 
+    const [accountLinked, setAccountLinked] = React.useState("");
+
+    React.useEffect(() => {
+        fetch("http://localhost:5199/api/khachhang/accountLinked/" + customer.IDKhachHang)
+            .then(response => response.json())
+            .then(function (accountLink) {
+                setAccountLinked(accountLink)
+            })
+    }, [customer.IDKhachHang])
+
     const handleOpen = () => {
         setOpen(true);
     }
+
     const handleClose = () => setOpen(false);
-    const NgayCap = new Date(customer.NgayCap);
-    const NgayChinhSua = new Date(customer.NgayChinhSua);
     const NgayTao = new Date(customer.NgayTao);
     return (
         <div>
@@ -80,27 +89,20 @@ export default function CustomerFormView({ customer }) {
                         <Typography variant="h6" style={{ width: 700, paddingBottom: 40, paddingRight: 40 }}>
                             Ngày Tạo: <Typography variant="inherit">{getFormattedDate(NgayTao)}</Typography>
                         </Typography>
-                        {getFormattedDate(NgayChinhSua) !== '01/01/1970' ?
-                            <Typography variant="h6" style={{ width: 300, paddingBottom: 40, paddingRight: 40 }}>
-                                Chỉnh Sửa Lần Cuối: <Typography variant="inherit">{getFormattedDate(NgayChinhSua)}</Typography>
-                            </Typography>
-                            :
-                            <Typography variant="h6" style={{ width: 300, paddingBottom: 40, paddingRight: 40 }}>
-                                Chỉnh Sửa Lần Cuối: <Typography variant="inherit">Chưa được chỉnh sửa</Typography>
-                            </Typography>
-                        }
-
-                        <Typography variant="h6" style={{ width: 700, paddingBottom: 40, paddingRight: 40 }}>
-                            Số CCCD: <Typography variant="inherit">{customer.CCCD}</Typography>
-                        </Typography>
                         <Typography variant="h6" style={{ width: 300, paddingBottom: 40, paddingRight: 40 }}>
-                            Ngày Cấp CCCD: <Typography variant="inherit">{getFormattedDate(NgayCap)}</Typography>
+                            Loại Khách Hàng: <Typography variant="inherit">{customer.TenLoai}</Typography>
                         </Typography>
                         <Typography variant="h6" style={{ width: 700, paddingBottom: 40, paddingRight: 40 }}>
                             Địa Chỉ: <Typography variant="inherit">{customer.DiaChi}, {customer.TenXaPhuong} , {customer.TenQuanHuyen}</Typography>
                         </Typography>
                         <Typography variant="h6" style={{ width: 300, paddingBottom: 40, paddingRight: 40 }}>
-                            Loại Khách Hàng: <Typography variant="inherit">{customer.TenLoai}</Typography>
+                            Số CCCD: <Typography variant="inherit">{customer.CCCD}</Typography>
+                        </Typography>
+                        <Typography variant="h6" style={{ width: 1000, paddingBottom: 40, paddingRight: 40 }}>
+                            Các account đã liên kết:
+                            <Typography variant="inherit">
+                                {accountLinked}
+                            </Typography>
                         </Typography>
                     </Box>
                 </Box>

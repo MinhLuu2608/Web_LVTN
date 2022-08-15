@@ -484,13 +484,13 @@ function Customer({ collectCustomer }) {
         }
     }
 
-    const showStatusCustomer = function(customer){
+    const showStatusCustomer = function (customer) {
         if (customer.TrangThai === 1) {
-            return(
-            <StyledTableCell sx={{ color: "var(--color2)" }}>Đang Sử Dụng</StyledTableCell>
+            return (
+                <StyledTableCell sx={{ color: "var(--color2)" }}>Đang Sử Dụng</StyledTableCell>
             )
         } else {
-            return(
+            return (
                 <StyledTableCell style={{ color: "var(--color9)" }}>Tạm Dừng Sử Dụng</StyledTableCell>
             )
         }
@@ -686,16 +686,7 @@ function Customer({ collectCustomer }) {
                         :
                         <div></div>
                     }
-
                 </Stack>
-                {!collectCustomer ?
-                    <Stack direction="row" spacing={2} alignItems="flex-end" marginBottom={2} marginTop={2}>
-                        <CustomerNoRoute handleResetPage={handleResetPage} />
-                    </Stack>
-                    :
-                    <Stack direction="row" spacing={2} alignItems="flex-end" marginBottom={2} marginTop={2}>
-                    </Stack>
-                }
             </Box>
 
             <TableContainer component={Paper}>
