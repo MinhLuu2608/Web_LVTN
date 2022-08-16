@@ -5,7 +5,7 @@ import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 import Stack from '@mui/material/Stack';
 import Modal from '@mui/material/Modal';
-import { FormControl, TextField, FormControlLabel, FormGroup, FormLabel, ButtonGroup } from '@mui/material';
+import { FormControl, TextField, FormControlLabel, FormGroup, FormLabel } from '@mui/material';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import Tooltip from '@mui/material/Tooltip';
@@ -15,7 +15,8 @@ import Radio from '@mui/material/Radio';
 import RadioGroup from '@mui/material/RadioGroup';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import Checkbox from '@mui/material/Checkbox';
-
+import SnackBarContext from '../SnackBar/SnackBarContext';
+import { setMessage, setOpenSnackBar, setSeverity } from '../SnackBar/SnackBarAction';
 
 const style = {
     position: 'absolute',
@@ -34,19 +35,17 @@ const AddForm__style = {
     justifyContent: 'flex-end',
     paddingLeft: 5
 };
-export default function EmployeeFormEdit({ employee, employeeList, empRolesEdit, rolesEdit, getIDQuyenByIDNhanVien, handleResetPage}) {
+export default function EmployeeFormEdit({ employee, employeeList, empRolesEdit, rolesEdit, getIDQuyenByIDNhanVien, handleResetPage }) {
+    const [, dispatch] = React.useContext(SnackBarContext)
+
     const [addEmp, setAddEmp] = React.useState({
         idnhanvien: employee.IDNhanVien,
         email: employee.Email,
-        manhanvien: employee.MaNhanVien,
         tennhanvien: employee.HoTen,
         sdt: employee.SoDienThoai,
         diachi: employee.DiaChi,
         cccd: employee.CCCD,
         gioiTinh: employee.GioiTinh,
-        profilepicture: employee.ProfilePicture,
-        taikhoan: employee.TaiKhoan,
-        matkhau: employee.MatKhau,
         ngaysinh: employee.NgaySinh
     });
     var md5 = require('md5');
@@ -62,9 +61,9 @@ export default function EmployeeFormEdit({ employee, employeeList, empRolesEdit,
     const handleCheck = (id) => {
         setAddEmpRoles(prev => {
             const isChecked = addEmpRoles.includes(id)
-            if(isChecked) {
+            if (isChecked) {
                 return addEmpRoles.filter(item => item !== id)
-            }else{
+            } else {
                 return [...prev, id]
             }
         })
@@ -80,18 +79,14 @@ export default function EmployeeFormEdit({ employee, employeeList, empRolesEdit,
         setCCCDError(false);
         setAddEmpRoles(getIDQuyenByIDNhanVien(employee.IDNhanVien, empRolesEdit, rolesEdit));
         setAddEmp({
-            ...addEmp, 
+            ...addEmp,
             idnhanvien: employee.IDNhanVien,
             email: employee.Email,
-            manhanvien: employee.MaNhanVien,
             tennhanvien: employee.HoTen,
             sdt: employee.SoDienThoai,
             diachi: employee.DiaChi,
             cccd: employee.CCCD,
             gioiTinh: employee.GioiTinh,
-            profilepicture: employee.ProfilePicture,
-            taikhoan: employee.TaiKhoan,
-            matkhau: employee.MatKhau,
             ngaysinh: employee.NgaySinh
         });
         setOpen(true);
@@ -104,35 +99,31 @@ export default function EmployeeFormEdit({ employee, employeeList, empRolesEdit,
         setCCCDError(false);
         setAddEmpRoles(getIDQuyenByIDNhanVien(employee.IDNhanVien, empRolesEdit, rolesEdit));
         setAddEmp({
-            ...addEmp, 
+            ...addEmp,
             idnhanvien: employee.IDNhanVien,
             email: employee.Email,
-            manhanvien: employee.MaNhanVien,
             tennhanvien: employee.HoTen,
             sdt: employee.SoDienThoai,
             diachi: employee.DiaChi,
             cccd: employee.CCCD,
             gioiTinh: employee.GioiTinh,
-            profilepicture: employee.ProfilePicture,
-            taikhoan: employee.TaiKhoan,
-            matkhau: employee.MatKhau,
             ngaysinh: employee.NgaySinh
         });
         setOpen(false)
     };
 
-    function validateEmail(email){
+    function validateEmail(email) {
         var EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         return EMAIL_REGEX.test(email);
     }
     //console.log(employeeList);
-    function isDuplicateCCCD(idNV, cccd){
+    function isDuplicateCCCD(idNV, cccd) {
         var result = false;
-        for(var i=0; i < employeeList.length; i++){
-            if(employeeList[i].IDNhanVien === idNV){
+        for (var i = 0; i < employeeList.length; i++) {
+            if (employeeList[i].IDNhanVien === idNV) {
                 continue;
             }
-            if(employeeList[i].CCCD === cccd.toString()) {
+            if (employeeList[i].CCCD === cccd.toString()) {
                 result = true;
                 /*
                 console.log('loop #' + i + ' id: '+ employeeList[i].IDNhanVien)
@@ -144,13 +135,13 @@ export default function EmployeeFormEdit({ employee, employeeList, empRolesEdit,
         return result;
     }
 
-    function isDuplicateSDT(idNV, sdt){
+    function isDuplicateSDT(idNV, sdt) {
         var result = false;
-        for(var i=0; i < employeeList.length; i++){
-            if(employeeList[i].IDNhanVien === idNV){
+        for (var i = 0; i < employeeList.length; i++) {
+            if (employeeList[i].IDNhanVien === idNV) {
                 continue;
             }
-            if(employeeList[i].SoDienThoai === sdt.toString()) {
+            if (employeeList[i].SoDienThoai === sdt.toString()) {
                 result = true;
                 /*
                 console.log('loop #' + i + ' id: '+ employeeList[i].IDNhanVien)
@@ -162,13 +153,13 @@ export default function EmployeeFormEdit({ employee, employeeList, empRolesEdit,
         return result;
     }
 
-    function isDuplicateEmail(idNV, email){
+    function isDuplicateEmail(idNV, email) {
         var result = false;
-        for(var i=0; i < employeeList.length; i++){
-            if(employeeList[i].IDNhanVien === idNV){
+        for (var i = 0; i < employeeList.length; i++) {
+            if (employeeList[i].IDNhanVien === idNV) {
                 continue;
             }
-            if(employeeList[i].Email === email.toString()) {
+            if (employeeList[i].Email === email.toString()) {
                 result = true;
                 /*
                 console.log('loop #' + i + ' id: '+ employeeList[i].IDNhanVien)
@@ -194,47 +185,47 @@ export default function EmployeeFormEdit({ employee, employeeList, empRolesEdit,
         let validDiaChi = false;
         let validSDT = false;
         let validEmail = false;
-        let validNgaySinh = false;
-        
-        if(addEmp.email == '' || !validateEmail(addEmp.email) || isDuplicateEmail(addEmp.idnhanvien, addEmp.email)) {
+        // let validNgaySinh = false;
+
+        if (addEmp.email === '' || !validateEmail(addEmp.email) || isDuplicateEmail(addEmp.idnhanvien, addEmp.email)) {
             setEmailError(true);
-        }else validEmail = true
+        } else validEmail = true
 
-        if(addEmp.tennhanvien == '') {
+        if (addEmp.tennhanvien === '') {
             setTenNhanVienError(true);
-        }else validHoTen = true
+        } else validHoTen = true
 
-        if((addEmp.sdt === '' || isNaN(+addEmp.sdt) || addEmp.sdt.length !== 10 || isDuplicateSDT(addEmp.idnhanvien, addEmp.sdt)) ) {
+        if ((addEmp.sdt === '' || isNaN(+addEmp.sdt) || addEmp.sdt.length !== 10 || isDuplicateSDT(addEmp.idnhanvien, addEmp.sdt))) {
             setSdtError(true);
-        }else validSDT= true
+        } else validSDT = true
 
-        if(addEmp.diachi == '') {
+        if (addEmp.diachi === '') {
             setDiaChiError(true);
-        }else validDiaChi = true
+        } else validDiaChi = true
 
-        if(addEmp.cccd === '' || addEmp.cccd.length !== 12 || isNaN(+(addEmp.cccd)) || isDuplicateCCCD(addEmp.idnhanvien, addEmp.cccd)) {
+        if (addEmp.cccd === '' || addEmp.cccd.length !== 12 || isNaN(+(addEmp.cccd)) || isDuplicateCCCD(addEmp.idnhanvien, addEmp.cccd)) {
             setCCCDError(true);
-        }else validCCCD = true
+        } else validCCCD = true
 
-        if(addEmp.ngaysinh == null) {
-            //setNgaySinh('');
-            setAddEmp({...addEmp, ngaysinh: '' });
-        }
-        
-        const today = new Date().getFullYear();
-        const ngaySinh = new Date(addEmp.ngaysinh);
-        //console.log(ngaySinh.getFullYear());
-        if(ngaySinh){
-            //console.log(today - ngaySinh.getFullYear());
-            if(ngaySinh!=null && (today - ngaySinh.getFullYear() < 18)){
-                //setNgaySinh('');
-                setAddEmp({...addEmp, ngaysinh: '' });
-            }else validNgaySinh = true;
-        }
- 
+        // if (addEmp.ngaysinh === null) {
+        //     //setNgaySinh('');
+        //     setAddEmp({ ...addEmp, ngaysinh: '' });
+        // }
+
+        // const today = new Date().getFullYear();
+        // const ngaySinh = new Date(addEmp.ngaysinh);
+        // //console.log(ngaySinh.getFullYear());
+        // if (ngaySinh) {
+        //     //console.log(today - ngaySinh.getFullYear());
+        //     if (ngaySinh !== null && (today - ngaySinh.getFullYear() < 18)) {
+        //         //setNgaySinh('');
+        //         // setAddEmp({ ...addEmp, ngaysinh: '' })
+        //     } else validNgaySinh = true;
+        // }
+
         //if(email && tennhanvien && sdt && diachi && cccd && ngaysinh!=null && !(today - ngaysinh.getFullYear() < 18) && validateEmail(email)) {
-        if(validCCCD && validDiaChi && validEmail && validHoTen && validNgaySinh && validSDT) {
-            addEmp.ngaysinh = ngaySinh.toLocaleDateString();
+        if (validCCCD && validDiaChi && validEmail && validHoTen && validSDT) {
+            // addEmp.ngaysinh = ngaySinh.toLocaleDateString();
             /*
             console.log(JSON.stringify({
                     IDNhanVien: addEmp.idnhanvien,
@@ -251,94 +242,79 @@ export default function EmployeeFormEdit({ employee, employeeList, empRolesEdit,
                     MatKhau: addEmp.matkhau
                 }) );
             */
-            fetch('http://localhost:5199/api/nhanvien',{
+            /*
+            console.log('idnhanvien: '+addEmp.idnhanvien);
+            */
+            var jsonRoles = '[{"IDNhanVien": ' + (addEmp.idnhanvien) + ', "IDQuyen": ' + addEmpRoles[0] + '}';
+
+            for (var i = 1; i < addEmpRoles.length; i++) {
+                jsonRoles += ',{"IDNhanVien": ' + (addEmp.idnhanvien) + ', "IDQuyen": ' + addEmpRoles[i] + '}';
+            }
+            jsonRoles += ']';
+
+            fetch('http://localhost:5199/api/nhanvien/' + addEmp.idnhanvien, {
+                method: 'DELETE'
+            })
+                .then(data => data.json())
+                .then(() => {
+                    fetch('http://localhost:5199/api/phanquyen', {
+                        method: 'POST',
+                        headers: { "Content-type": "application/json" },
+                        body: jsonRoles
+                    })
+                })
+
+
+            fetch("http://localhost:5199/api/nhanvien", {
                 method: 'PUT',
-                headers: {"Content-type": "application/json"},
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
                 body: JSON.stringify({
                     IDNhanVien: addEmp.idnhanvien,
-                    MaNhanVien: addEmp.manhanvien,
                     HoTen: addEmp.tennhanvien,
                     Email: addEmp.email,
                     GioiTinh: addEmp.gioiTinh,
                     SoDienThoai: addEmp.sdt,
                     NgaySinh: addEmp.ngaysinh,
                     DiaChi: addEmp.diachi,
-                    CCCD: addEmp.cccd,
-                    ProfilePicture: addEmp.profilepicture,
-                    TaiKhoan: addEmp.taikhoan,
-                    MatKhau: addEmp.matkhau
+                    CCCD: addEmp.cccd
                 })
-            });
-
-            if(addEmpRoles.length > 0) {
-                /*
-                console.log('idnhanvien: '+addEmp.idnhanvien);
-                */
-                var jsonRoles = '[{"IDNhanVien": '+(addEmp.idnhanvien)+', "IDQuyen": '+addEmpRoles[0]+'}';
-                
-                for(var i=1; i < addEmpRoles.length; i++){
-                   jsonRoles += ',{"IDNhanVien": '+(addEmp.idnhanvien)+', "IDQuyen": '+addEmpRoles[i]+'}';
-                }
-                jsonRoles += ']';
-                
-                fetch('http://localhost:5199/api/nhanvien/' + addEmp.idnhanvien, {
-                    method: 'DELETE'
-                }).then(data => console.log(data))
-                .then(()=> {
-                    fetch('http://localhost:5199/api/phanquyen',{
-                        method: 'POST',
-                        headers: {"Content-type": "application/json"},
-                        body: jsonRoles
-                    }).then(data => console.log(data))
-                }).then(() => {
-                    setOpen(false);
-                    handleResetPage();
-                })
-
-
-                /* OLD
-                for(var i=0; i < addEmpRoles.length; i++){
-                    
-                    console.log(
-                        JSON.stringify({
-                            IDNhanVien: addEmp.idnhanvien,
-                            IDQuyen: addEmpRoles[i]
-                        })
-                    );
-                    
-                    wait(1);
-                    editEmpRoles(addEmp.idnhanvien, addEmpRoles[i])
-                    
-                    fetch('http://localhost:5199/api/phanquyen',{
-                        method: 'POST',
-                        headers: {"Content-type": "application/json"},
-                        body: JSON.stringify({
-                            IDNhanVien: addEmp.idnhanvien,
-                            IDQuyen: addEmpRoles[i]
-                        })
-                    }).then(data => console.log(data));
-                    
-                }
-                */
-            }
+            })
+                .then(res => res.json())
+                .then((result) => {
+                    dispatch(setOpenSnackBar());
+                    dispatch(setMessage(result.message));
+                    dispatch(setSeverity(result.severity));
+                    if (result.severity === "success") {
+                        setOpen(false);
+                        handleResetPage();
+                    }
+                },
+                    (error) => {
+                        dispatch(setOpenSnackBar());
+                        dispatch(setMessage("Failed"));
+                        dispatch(setSeverity("error"));
+                    })
         }
-               
+
     };
 
     const [checkNV, setCheckNV] = React.useState(false);
     const [buttonDisplay, setButtonDisplay] = React.useState(false);
 
-    async function checkTuyenThuNV(){
+    async function checkTuyenThuNV() {
         await fetch('http://localhost:5199/api/nhanvien/checktuyenthu/' + employee.IDNhanVien)
-        .then(response => response.json())
-        .then((data) => setCheckNV(data))
-        .then(() => handleCheckTuyenThuNV(checkNV))
+            .then(response => response.json())
+            .then((data) => setCheckNV(data))
+            .then(() => handleCheckTuyenThuNV(checkNV))
     }
-    
-    function handleCheckTuyenThuNV(checkNV){
-        if(!checkNV){
+
+    function handleCheckTuyenThuNV(checkNV) {
+        if (!checkNV) {
             setButtonDisplay(true);
-        }else{
+        } else {
             setButtonDisplay(false);
         }
     }
@@ -357,143 +333,143 @@ export default function EmployeeFormEdit({ employee, employeeList, empRolesEdit,
                 aria-labelledby="modal-modal-title"
                 aria-describedby="modal-modal-description"
             >
-                
+
                 <Box sx={style}>
                     <Typography id="post-request-error-handling" variant="h5">
                         Chỉnh Sửa Thông Tin Nhân Viên
                     </Typography>
                     <Box sx={AddForm__style}>
                         <Box
-                            component="form" 
+                            component="form"
                             sx={{
                                 '& > :not(style)': { m: 1 },
-                            }} 
+                            }}
                             noValidate
-                            autoComplete="off" 
+                            autoComplete="off"
                             onSubmit={handleSubmit}
                         >
                             <Grid container spacing={2}>
-                            <Grid item xs={5}>
-                                <TextField
-                                    onChange={(e) => setAddEmp({...addEmp, tennhanvien: e.target.value})}
-                                    label="Tên Nhân Viên"
-                                    defaultValue={employee.HoTen}
-                                    variant="outlined"
-                                    fullWidth
-                                    required 
-                                    error={tennhanvienError}
-                                />
-                            </Grid>
-                            <Grid item xs={5}>
-                                <LocalizationProvider dateAdapter={AdapterDateFns}>
-                                    <DatePicker
-                                        label="Ngày Sinh"
-                                        value={addEmp.ngaysinh} 
-                                        onChange={(newNgaySinh) => {
-                                            setAddEmp({...addEmp, ngaysinh: newNgaySinh });
-                                        }}
-                                        renderInput={(params) => 
-                                            <TextField 
-                                                fullWidth 
-                                                required 
-                                                {...params} 
-                                            />}
+                                <Grid item xs={5}>
+                                    <TextField
+                                        onChange={(e) => setAddEmp({ ...addEmp, tennhanvien: e.target.value })}
+                                        label="Tên Nhân Viên"
+                                        defaultValue={employee.HoTen}
+                                        variant="outlined"
+                                        fullWidth
+                                        required
+                                        error={tennhanvienError}
                                     />
-                                </LocalizationProvider>
+                                </Grid>
+                                <Grid item xs={5}>
+                                    <LocalizationProvider dateAdapter={AdapterDateFns}>
+                                        <DatePicker
+                                            label="Ngày Sinh"
+                                            value={addEmp.ngaysinh}
+                                            onChange={(newNgaySinh) => {
+                                                setAddEmp({ ...addEmp, ngaysinh: newNgaySinh });
+                                            }}
+                                            renderInput={(params) =>
+                                                <TextField
+                                                    fullWidth
+                                                    required
+                                                    {...params}
+                                                />}
+                                        />
+                                    </LocalizationProvider>
+                                </Grid>
+                                <Grid item xs={5}>
+                                    <TextField
+                                        onChange={(e) => setAddEmp({ ...addEmp, sdt: e.target.value })}
+                                        label="Số Điện Thoại"
+                                        defaultValue={employee.SoDienThoai}
+                                        variant="outlined"
+                                        display="block"
+                                        fullWidth
+                                        required
+                                        error={sdtError}
+                                    />
+                                </Grid>
+                                <Grid item xs={5}>
+                                    <TextField
+                                        onChange={(e) => setAddEmp({ ...addEmp, cccd: e.target.value })}
+                                        label="Căn Cước Công Dân"
+                                        defaultValue={employee.CCCD}
+                                        variant="outlined"
+                                        display="block"
+                                        fullWidth
+                                        required
+                                        error={cccdError}
+                                    />
+                                </Grid>
+                                <Grid item xs={5}>
+                                    <TextField
+                                        onChange={(e) => setAddEmp({ ...addEmp, email: e.target.value })}
+                                        label="Email"
+                                        defaultValue={employee.Email}
+                                        variant="outlined"
+                                        display="block"
+                                        fullWidth
+                                        required
+                                        error={emailError}
+                                    />
+                                </Grid>
+                                <Grid item xs={5}>
+                                    <TextField
+                                        onChange={(e) => setAddEmp({ ...addEmp, diachi: e.target.value })}
+                                        label="Địa Chỉ"
+                                        defaultValue={employee.DiaChi}
+                                        variant="outlined"
+                                        display="block"
+                                        fullWidth
+                                        required
+                                        error={diachiError}
+                                    />
+                                </Grid>
                             </Grid>
-                            <Grid item xs={5}>
-                                <TextField
-                                    onChange={(e) => setAddEmp({...addEmp, sdt: e.target.value})}
-                                    label="Số Điện Thoại" 
-                                    defaultValue={employee.SoDienThoai}
-                                    variant="outlined" 
-                                    display="block"
-                                    fullWidth 
-                                    required 
-                                    error={sdtError}
-                                />
-                            </Grid>
-                            <Grid item xs={5}>
-                                <TextField
-                                    onChange={(e) => setAddEmp({...addEmp, cccd: e.target.value})}
-                                    label="Căn Cước Công Dân" 
-                                    defaultValue={employee.CCCD}
-                                    variant="outlined" 
-                                    display="block"
-                                    fullWidth 
-                                    required 
-                                    error={cccdError}
-                                />
-                            </Grid>
-                            <Grid item xs={5}>
-                                <TextField
-                                    onChange={(e) => setAddEmp({...addEmp, email: e.target.value})}
-                                    label="Email" 
-                                    defaultValue={employee.Email}
-                                    variant="outlined" 
-                                    display="block"
-                                    fullWidth 
-                                    required 
-                                    error={emailError}
-                                />
-                            </Grid>
-                            <Grid item xs={5}>
-                                <TextField
-                                    onChange={(e) => setAddEmp({...addEmp, diachi: e.target.value})}
-                                    label="Địa Chỉ" 
-                                    defaultValue={employee.DiaChi}
-                                    variant="outlined" 
-                                    display="block"
-                                    fullWidth 
-                                    required 
-                                    error={diachiError}
-                                />
-                            </Grid>
-                            </Grid>
-                            
-                            <FormControl sx={{display: 'block'}}>
+
+                            <FormControl sx={{ display: 'block' }}>
                                 <FormLabel>Giới Tính</FormLabel>
-                                <RadioGroup value={addEmp.gioiTinh} onChange={(e) => setAddEmp({...addEmp, gioiTinh: e.target.value})}>
+                                <RadioGroup value={addEmp.gioiTinh} onChange={(e) => setAddEmp({ ...addEmp, gioiTinh: e.target.value })}>
                                     <Grid container spacing={2}>
-                                    <Grid item>
-                                        <FormControlLabel value="Nam" control={<Radio></Radio>} label="Nam"/>
-                                    </Grid>
-                                    <Grid item>
-                                    <FormControlLabel value="Nữ" control={<Radio></Radio>} label="Nữ"/>
-                                    </Grid>
+                                        <Grid item>
+                                            <FormControlLabel value="Nam" control={<Radio></Radio>} label="Nam" />
+                                        </Grid>
+                                        <Grid item>
+                                            <FormControlLabel value="Nữ" control={<Radio></Radio>} label="Nữ" />
+                                        </Grid>
                                     </Grid>
                                 </RadioGroup>
                             </FormControl>
 
-                            <FormControl sx={{display: 'block'}}>
-                            <FormLabel>Phân Quyền</FormLabel>
-                            <FormGroup>
-                                <FormControlLabel control={<Checkbox value="1" checked={addEmpRoles.includes(1)} onChange={() => handleCheck(1)} />} label="Quản Trị" />
-                                <FormControlLabel control={<Checkbox value="2" checked={addEmpRoles.includes(2)} onChange={() => handleCheck(2)} disabled={buttonDisplay} />} label="Thu Tiền" />
-                                <FormControlLabel control={<Checkbox value="3" checked={addEmpRoles.includes(3)} onChange={() => handleCheck(3)} />} label="Thống Kê - Báo Cáo" />                             
-                            </FormGroup>
+                            <FormControl sx={{ display: 'block' }}>
+                                <FormLabel>Phân Quyền</FormLabel>
+                                <FormGroup>
+                                    <FormControlLabel control={<Checkbox value="1" checked={addEmpRoles.includes(1)} onChange={() => handleCheck(1)} />} label="Quản Trị" />
+                                    <FormControlLabel control={<Checkbox value="2" checked={addEmpRoles.includes(2)} onChange={() => handleCheck(2)} disabled={buttonDisplay} />} label="Thu Tiền" />
+                                    <FormControlLabel control={<Checkbox value="3" checked={addEmpRoles.includes(3)} onChange={() => handleCheck(3)} />} label="Thống Kê - Báo Cáo" />
+                                </FormGroup>
                             </FormControl>
-                            <Box sx={{display: 'flex', justifyContent: 'flex-end'}}>
-                                <Button 
-                                    variant="contained" 
-                                    color="primary"  
-                                    onClick={(e) => setAddEmp({...addEmp, matkhau: md5('shizen123')})}
-                                    sx={{marginRight: 2}}
+                            <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
+                                <Button
+                                    variant="contained"
+                                    color="primary"
+                                    onClick={(e) => setAddEmp({ ...addEmp, matkhau: md5('shizen123') })}
+                                    sx={{ marginRight: 2 }}
                                 >
                                     Reset Mật Khẩu
                                 </Button>
-                                <Button 
-                                    type="submit" 
-                                    variant="contained" 
-                                    color="primary"  
-                                    sx={{marginRight: 2}}
+                                <Button
+                                    type="submit"
+                                    variant="contained"
+                                    color="primary"
+                                    sx={{ marginRight: 2 }}
                                 >
                                     Xác Nhận
                                 </Button>
-                                <Button 
-                                variant="contained" 
-                                color="primary" 
-                                onClick={handleClose} 
+                                <Button
+                                    variant="contained"
+                                    color="primary"
+                                    onClick={handleClose}
                                 >
                                     Hủy Bỏ
                                 </Button>

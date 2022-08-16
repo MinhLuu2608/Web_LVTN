@@ -80,7 +80,7 @@ export default function ExportFileExcel({ employees, getQuyenByIDNhanVien, empRo
                         "Ngày Sinh": getFormattedDate(new Date(employee.NgaySinh)),
                         "Địa Chỉ": employee.DiaChi,
                         "Căn Cước Công Dân": employee.CCCD,
-                        "Tài Khoản": employee.TaiKhoan  
+                        "Tài Khoản": employee.username
                     }
                     chosenExportEmployees.push(chosenExportEmployee)
                 }

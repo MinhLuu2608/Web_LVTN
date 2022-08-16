@@ -63,7 +63,7 @@ export default function EmployeeFormView({ employee, empRoles }) {
                         <IconButton variant="contained" onClick={handleClose}><CloseIcon /></IconButton>
                     </Stack>
                     <Box sx={Info__style}>
-                        <Typography variant="h4" style={{ width: 1200, paddingBottom: 40}}>
+                        <Typography variant="h4" style={{ width: 1200, paddingBottom: 40 }}>
                             Chi Tiết Nhân Viên
                         </Typography>
                         <Typography variant="h6" style={{ width: 700, paddingBottom: 40, paddingRight: 40 }}>
@@ -89,13 +89,13 @@ export default function EmployeeFormView({ employee, empRoles }) {
                         </Typography>
                         <Typography variant="h6" style={{ width: 300, paddingBottom: 40, paddingRight: 40 }}>
                             Email: <Typography variant="inherit">{employee.Email}</Typography>
-                        </Typography> 
+                        </Typography>
                         <Typography variant="h6" style={{ width: 700, paddingBottom: 40, paddingRight: 40 }}>
                             Địa Chỉ: <Typography variant="inherit">{employee.DiaChi}</Typography>
-                        </Typography>  
+                        </Typography>
                         <Typography variant="h6" style={{ width: 300, paddingBottom: 40, paddingRight: 40 }}>
-                            Tài Khoản: <Typography variant="inherit">{employee.TaiKhoan}</Typography>
-                        </Typography>        
+                            Tài Khoản: <Typography variant="inherit">{employee.username}</Typography>
+                        </Typography>
                     </Box>
                 </Box>
             </Modal>
