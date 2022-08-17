@@ -176,6 +176,7 @@ function Client() {
                                 setLogin({
                                     ...login,
                                     Password: e.target.value,
+                                    // Password: md5(e.target.value),
                                 });
                             }}
                         // onChange={(e)=> {setLogin({...login,Password: md5(e.target.value)})}}

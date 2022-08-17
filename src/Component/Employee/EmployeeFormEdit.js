@@ -450,14 +450,14 @@ export default function EmployeeFormEdit({ employee, employeeList, empRolesEdit,
                                 </FormGroup>
                             </FormControl>
                             <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
-                                <Button
+                                {/* <Button
                                     variant="contained"
                                     color="primary"
                                     onClick={(e) => setAddEmp({ ...addEmp, matkhau: md5('shizen123') })}
                                     sx={{ marginRight: 2 }}
                                 >
                                     Reset Mật Khẩu
-                                </Button>
+                                </Button> */}
                                 <Button
                                     type="submit"
                                     variant="contained"
