@@ -340,7 +340,7 @@ export default function EmployeeFormAdd({ employees, handleResetPage }) {
                                     <TextField
                                         value={taiKhoan}
                                         onChange={(e) => setTaiKhoan(e.target.value)}
-                                        label="Tài khoản"
+                                        label="Tên Tài khoản"
                                         display="block"
                                         fullWidth
                                     />
