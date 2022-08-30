@@ -54,7 +54,6 @@ export default function EmployeeFormEdit({ employee, employeeList, empRolesEdit,
     const [sdtError, setSdtError] = React.useState(false);
     const [diachiError, setDiaChiError] = React.useState(false);
     const [cccdError, setCCCDError] = React.useState(false);
-
     const defaultEmpRoles = getIDQuyenByIDNhanVien(employee.IDNhanVien, empRolesEdit, rolesEdit);
     const [addEmpRoles, setAddEmpRoles] = React.useState(defaultEmpRoles);
 
@@ -89,7 +88,9 @@ export default function EmployeeFormEdit({ employee, employeeList, empRolesEdit,
             gioiTinh: employee.GioiTinh,
             ngaysinh: employee.NgaySinh
         });
+        console.log("Default emp role :" + defaultEmpRoles);
         setOpen(true);
+
     }
     const handleClose = () => {
         setEmailError(false);
@@ -207,44 +208,7 @@ export default function EmployeeFormEdit({ employee, employeeList, empRolesEdit,
             setCCCDError(true);
         } else validCCCD = true
 
-        // if (addEmp.ngaysinh === null) {
-        //     //setNgaySinh('');
-        //     setAddEmp({ ...addEmp, ngaysinh: '' });
-        // }
-
-        // const today = new Date().getFullYear();
-        // const ngaySinh = new Date(addEmp.ngaysinh);
-        // //console.log(ngaySinh.getFullYear());
-        // if (ngaySinh) {
-        //     //console.log(today - ngaySinh.getFullYear());
-        //     if (ngaySinh !== null && (today - ngaySinh.getFullYear() < 18)) {
-        //         //setNgaySinh('');
-        //         // setAddEmp({ ...addEmp, ngaysinh: '' })
-        //     } else validNgaySinh = true;
-        // }
-
-        //if(email && tennhanvien && sdt && diachi && cccd && ngaysinh!=null && !(today - ngaysinh.getFullYear() < 18) && validateEmail(email)) {
         if (validCCCD && validDiaChi && validEmail && validHoTen && validSDT) {
-            // addEmp.ngaysinh = ngaySinh.toLocaleDateString();
-            /*
-            console.log(JSON.stringify({
-                    IDNhanVien: addEmp.idnhanvien,
-                    MaNhanVien: addEmp.manhanvien,
-                    HoTen: addEmp.tennhanvien,
-                    Email: addEmp.email,
-                    GioiTinh: addEmp.gioiTinh,
-                    SoDienThoai: addEmp.sdt,
-                    NgaySinh: addEmp.ngaysinh,
-                    DiaChi: addEmp.diachi,
-                    CCCD: addEmp.cccd,
-                    ProfilePicture: addEmp.profilepicture,
-                    TaiKhoan: addEmp.taikhoan,
-                    MatKhau: addEmp.matkhau
-                }) );
-            */
-            /*
-            console.log('idnhanvien: '+addEmp.idnhanvien);
-            */
             var jsonRoles = '[{"IDNhanVien": ' + (addEmp.idnhanvien) + ', "IDQuyen": ' + addEmpRoles[0] + '}';
 
             for (var i = 1; i < addEmpRoles.length; i++) {
@@ -445,8 +409,8 @@ export default function EmployeeFormEdit({ employee, employeeList, empRolesEdit,
                                 <FormLabel>Phân Quyền</FormLabel>
                                 <FormGroup>
                                     <FormControlLabel control={<Checkbox value="1" checked={addEmpRoles.includes(1)} onChange={() => handleCheck(1)} />} label="Quản Trị" />
-                                    <FormControlLabel control={<Checkbox value="2" checked={addEmpRoles.includes(2)} onChange={() => handleCheck(2)} disabled={buttonDisplay} />} label="Thu Tiền" />
-                                    <FormControlLabel control={<Checkbox value="3" checked={addEmpRoles.includes(3)} onChange={() => handleCheck(3)} />} label="Thống Kê - Báo Cáo" />
+                                    <FormControlLabel control={<Checkbox value="2" checked={addEmpRoles.includes(2)} onChange={() => handleCheck(2)} disabled={buttonDisplay || addEmpRoles.includes(3)} />} label="Thu Tiền" />
+                                    <FormControlLabel control={<Checkbox value="3" checked={addEmpRoles.includes(3)} onChange={() => handleCheck(3)} disabled={addEmpRoles.includes(2)} />} label="Dịch vụ" />
                                 </FormGroup>
                             </FormControl>
                             <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>

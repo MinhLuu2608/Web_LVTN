@@ -67,6 +67,8 @@ export default function CustomerFormEdit({ customer, handleResetPage, importdist
 
     const [customerTypes, setCustomerTypes] = React.useState([]);
 
+    const [errorCCCD, setErrorCCCD] = React.useState(false);
+
     React.useEffect(() => {
         axios.get(`http://localhost:5199/api/LoaiKhachHang`)
             .then(res => {
@@ -76,15 +78,16 @@ export default function CustomerFormEdit({ customer, handleResetPage, importdist
     }, [])
 
     const handleOpen = () => {
-        setOpen(true);
-        setName(customer.HoTenKH);
-        setCCCD(customer.CCCD);
-        setAddress(customer.DiaChi);
-        setChosenDistrict(customer.IDQuanHuyen);
-        setChosenWard(customer.IDXaPhuong);
-        setChosenCustomerType(customer.IDLoaiKhachHang);
-        setDistricts(importdistricts);
-        setWards(importwards);
+        setOpen(true)
+        setName(customer.HoTenKH)
+        setCCCD(customer.CCCD)
+        setAddress(customer.DiaChi)
+        setChosenDistrict(customer.IDQuanHuyen)
+        setChosenWard(customer.IDXaPhuong)
+        setChosenCustomerType(customer.IDLoaiKhachHang)
+        setDistricts(importdistricts)
+        setWards(importwards)
+        setErrorCCCD(false)
     }
 
     const [open, setOpen] = React.useState(false);
@@ -125,15 +128,16 @@ export default function CustomerFormEdit({ customer, handleResetPage, importdist
     }
 
     const handleSubmit = () => {
+        setErrorCCCD(false)
 
-        let thongbao = "Hãy thêm thông tin đúng dạng cho :";
-        let validName = false;
-        let validCCCD = false;
-        let validNumberCCCD = false;
-        let validAddress = false;
-        let validChosenDistrict = false;
-        let validChosenWard = false;
-        let validChosenCustomerType = false;
+        let thongbao = "Hãy thêm thông tin đúng định dạng cho :"
+        let validName = false
+        let validCCCD = false
+        let validNumberCCCD = false
+        let validAddress = false
+        let validChosenDistrict = false
+        let validChosenWard = false
+        let validChosenCustomerType = false
 
         if (Name === "" || Name.search(/[0-9]/) >= 0) {
             thongbao = thongbao + "\nHọ và Tên"
@@ -160,8 +164,9 @@ export default function CustomerFormEdit({ customer, handleResetPage, importdist
             thongbao = thongbao + "\nLoại Khách Hàng"
         } else validChosenCustomerType = true
 
-        if (CCCD.length !== 12) {
-            thongbao = thongbao + "\nCCCD phải đúng 12 ký tự"
+        if (CCCD.length !== 12 || isNaN(+CCCD)) {
+            thongbao = thongbao + "\nCCCD phải đúng 12 ký tự số"
+            setErrorCCCD(true)
         } else validNumberCCCD = true
 
         if (validName && validCCCD && validNumberCCCD && validAddress && validChosenDistrict && validChosenWard && validChosenCustomerType) {
@@ -245,13 +250,13 @@ export default function CustomerFormEdit({ customer, handleResetPage, importdist
                             </TextField>
                             <TextField
                                 required
-                                type="tel"
                                 label="Số CCCD"
                                 defaultValue={customer.CCCD}
                                 inputProps={{ inputMode: 'numeric', pattern: '[0-9]*' }}
                                 variant="outlined"
                                 style={{ marginTop: '20px' }}
                                 onChange={handleInputCCCD}
+                                error={errorCCCD}
                             >
                             </TextField>
                             <TextField

@@ -32,6 +32,14 @@ const QuyenChung = [
                 title: 'Quản lý tuyến thu',
                 path: '/home/tuyenthu'
             },
+            {
+                title: 'Quản lý dịch vụ',
+                path: '/home/service'
+            },
+            {
+                title: 'Quản lý đơn hàng dịch vụ',
+                path: '/home/order'
+            },
         ]
     },
     {
@@ -47,6 +55,23 @@ const QuyenChung = [
             },
             {
                 title: 'Danh sách phiếu thu',
+                path: '/home/empreceipt'
+            },
+        ]
+    },
+    {
+        // Dịch vụ
+        id: 3,
+        icon: 'fi fi-rr-list',
+        title: "NHÂN VIÊN DỊCH VỤ",
+        // Chức năng
+        child: [
+            {
+                title: 'Danh sách đơn hàng cần xử lý',
+                path: '/home/empreceipt'
+            },
+            {
+                title: 'Danh sách đơn hàng đã nhận',
                 path: '/home/empreceipt'
             },
         ]

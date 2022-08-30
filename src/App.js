@@ -11,6 +11,7 @@ import EmployeeReceipt from './Component/EmployeeReceipt/EmployeeReceipt';
 import HomePrivateStaff from './Component/Home/HomePrivateStaff';
 import Customer from './Component/Customer/Customer';
 import ReceiptMain from './Component/Receipt/ReceiptMain';
+import ServiceMain from './Component/Services/ServiceMain';
 
 function App() {
 
@@ -28,12 +29,12 @@ function App() {
             <Route path='empreceipt' element={<EmployeeReceipt />} />
             <Route path='employee' element={<Employee />} />
             <Route path='kythu' element={<KyThuMain />} />
-
             <Route path='collectcustomer' element={<Customer collectCustomer={true} />} />
-
             <Route path='tuyenthu' element={<TuyenThuMain />} />
             <Route path='hoadon' element={<ReceiptMain />} />
-
+            <Route path='service' element={<ServiceMain />} />
+            <Route path='order' element={<ReceiptMain />} />
+            <Route path='receiveorder' element={<ReceiptMain />} />
           </Route>
           <Route path='*' element={<Client />} />
 
