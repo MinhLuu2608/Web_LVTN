@@ -1,15 +1,7 @@
 import React, { useEffect, useState } from "react";
-import {
-    Alert,
-    Box,
-    Button,
-    Snackbar,
-    Stack,
-    TextField,
-    Typography,
-} from "@mui/material";
+import { Alert, Box, Button, Snackbar, TextField } from "@mui/material";
 import "../CSS/client.css";
-import picture from "../image/Capture.PNG";
+// import picture from "../image/Capture.PNG";
 import md5 from "md5";
 import axios from "axios";
 import { cookie, CreateCookie, GetCookie } from "./Cookie/CookieFunc";
@@ -131,7 +123,7 @@ function Client() {
                         }}
                     >
                         <img
-                            src={picture}
+                            src=""
                             alt="Logo"
                             width={290}
                             style={{ marginRight: 8 }}

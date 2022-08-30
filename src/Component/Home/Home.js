@@ -213,7 +213,7 @@ function Home() {
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" noWrap component="div">
-            Công ty môi trường SHIZEN
+            Công ty môi trường ENVI
           </Typography>
           {/* Avatar */}
           <div style={{ display: 'flex' }}>
@@ -285,7 +285,7 @@ function Home() {
             paddingLeft: '35px',
             paddingRight: '10px'
           }}>
-          <img src={logo} alt='Logo' style={{ width: '50px' }} />
+          <img src="" alt='Logo' style={{ width: '50px' }} />
 
           <IconButton onClick={handleDrawerClose}>
             {theme.direction === 'ltr' ? <ChevronLeftIcon /> : <ChevronRightIcon />}

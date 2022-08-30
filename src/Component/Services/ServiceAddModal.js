@@ -79,7 +79,7 @@ export default function ServiceAddModal({ reRenderServiceMain }) {
         } else validDonViTinh = true
 
         if (validTenDichVu && validDonGia && validDonViTinh) {
-            fetch("http://localhost:5199/api/service/", {
+            fetch("http://localhost:5199/api/dichvu/", {
                 method: 'POST',
                 headers: {
                     'Accept': 'application/json',

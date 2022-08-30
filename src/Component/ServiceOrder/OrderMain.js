@@ -1,34 +1,31 @@
-import * as React from 'react';
-import PropTypes from 'prop-types';
-import { useTheme } from '@mui/material/styles';
-import Box from '@mui/material/Box';
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
-import TableRow from '@mui/material/TableRow';
-import Paper from '@mui/material/Paper';
-import Tooltip from '@mui/material/Tooltip';
+import * as React from 'react'
+import PropTypes from 'prop-types'
+import { useTheme } from '@mui/material/styles'
+import Box from '@mui/material/Box'
+import Table from '@mui/material/Table'
+import TableBody from '@mui/material/TableBody'
+import TableCell from '@mui/material/TableCell'
+import TableContainer from '@mui/material/TableContainer'
+import TableHead from '@mui/material/TableHead'
+import TableRow from '@mui/material/TableRow'
+import Paper from '@mui/material/Paper'
+import Tooltip from '@mui/material/Tooltip'
 import DeleteIcon from '@mui/icons-material/Delete';
-import RestartAltIcon from '@mui/icons-material/RestartAlt';
-import IconButton from '@mui/material/IconButton';
-import Stack from '@mui/material/Stack';
-import TableFooter from '@mui/material/TableFooter';
-import TablePagination from '@mui/material/TablePagination';
-import FirstPageIcon from '@mui/icons-material/FirstPage';
-import KeyboardArrowLeft from '@mui/icons-material/KeyboardArrowLeft';
-import KeyboardArrowRight from '@mui/icons-material/KeyboardArrowRight';
-import LastPageIcon from '@mui/icons-material/LastPage';
-import Typography from '@mui/material/Typography';
-import { tableCellClasses } from '@mui/material/TableCell';
-import { styled } from '@mui/material/styles';
-import ButtonGroup from '@mui/material/ButtonGroup';
-import SnackBarContext from '../SnackBar/SnackBarContext';
-import { setMessage, setOpenSnackBar, setSeverity } from '../SnackBar/SnackBarAction';
-import ServiceAddModal from './ServiceAddModal';
-import ServiceFilter from './ServiceFilter';
-import ServiceEditModal from './ServiceEditModal';
+import RestartAltIcon from '@mui/icons-material/RestartAlt'
+import IconButton from '@mui/material/IconButton'
+import Stack from '@mui/material/Stack'
+import TableFooter from '@mui/material/TableFooter'
+import TablePagination from '@mui/material/TablePagination'
+import FirstPageIcon from '@mui/icons-material/FirstPage'
+import KeyboardArrowLeft from '@mui/icons-material/KeyboardArrowLeft'
+import KeyboardArrowRight from '@mui/icons-material/KeyboardArrowRight'
+import LastPageIcon from '@mui/icons-material/LastPage'
+import Typography from '@mui/material/Typography'
+import { tableCellClasses } from '@mui/material/TableCell'
+import { styled } from '@mui/material/styles'
+import ButtonGroup from '@mui/material/ButtonGroup'
+import SnackBarContext from '../SnackBar/SnackBarContext'
+import { setMessage, setOpenSnackBar, setSeverity } from '../SnackBar/SnackBarAction'
 
 function TablePaginationActions(props) {
     const theme = useTheme();
@@ -92,7 +89,7 @@ TablePaginationActions.propTypes = {
 };
 
 
-export default function ServiceMain() {
+export default function OrderMain() {
 
     // Table Style
     const StyledTableCell = styled(TableCell)(({ theme }) => ({
@@ -187,8 +184,8 @@ export default function ServiceMain() {
     React.useEffect(() => {
         fetch("http://localhost:5199/api/dichvu/" + searchLoaiDichVu + "/" + searchTinhTrangDichVu)
             .then(response => response.json())
-            .then(function (dichVu) {
-                setRows(dichVu);
+            .then(function (donHang) {
+                setRows(donHang);
             },
                 (error) => {
                     dispatch(setOpenSnackBar());
@@ -200,25 +197,25 @@ export default function ServiceMain() {
     return (
         <>
             <Typography variant="p" sx={{ fontSize: 30, color: "var(--color2)", fontWeight: "bold" }}>
-                Quản lý dịch vụ
+                Quản lý đơn hàng dịch vụ
             </Typography>
-            <ServiceAddModal reRenderServiceMain={reRender} />
+            {/* <ServiceAddModal reRenderServiceMain={reRender} /> */}
             <Stack direction="row" justifyContent="center" alignItems="center" spacing={2} >
-                <ServiceFilter
+                {/* <ServiceFilter
                     searchLoaiDichVu={searchLoaiDichVu}
                     searchTinhTrangDV={searchTinhTrangDichVu}
                     changeLoaiDichVu={handleChangeSearchLoaiDichVu}
                     changeTinhTrangDV={handleChangeSearchTinhTrangDV}
-                />
+                /> */}
             </Stack>
             <TableContainer style={{ marginTop: 20 }} component={Paper}>
                 <Table sx={{ minWidth: 650 }} aria-label="simple table">
                     <TableHead>
                         <StyledTableRow>
-                            <StyledTableCell>Loại dịch vụ</StyledTableCell>
-                            <StyledTableCell>Tên Dịch vụ</StyledTableCell>
-                            <StyledTableCell align="center">Đơn vị tính</StyledTableCell>
-                            <StyledTableCell align="center">Đơn giá</StyledTableCell>
+                            <StyledTableCell>Mã đơn hàng</StyledTableCell>
+                            <StyledTableCell>Tên khách hàng</StyledTableCell>
+                            <StyledTableCell align="center">Tên nhân viên</StyledTableCell>
+                            <StyledTableCell align="center">Ngày Tạo</StyledTableCell>
                             <StyledTableCell align="center">Tình trạng</StyledTableCell>
                             <StyledTableCell align="center">Thao tác</StyledTableCell>
                         </StyledTableRow>
@@ -238,21 +235,21 @@ export default function ServiceMain() {
                                 <StyledTableCell>{row.TenDichVu}</StyledTableCell>
                                 <StyledTableCell align="center">{row.DonViTinh}</StyledTableCell>
                                 <StyledTableCell align="center">{row.DonGiaDV}</StyledTableCell>
-                                {
+                                {/* {
                                     row.TinhTrangDV === 1
                                         ?
                                         <StyledTableCell align="center" sx={{ color: "var(--color2)" }}>Còn hoạt động</StyledTableCell>
                                         :
                                         <StyledTableCell align="center" sx={{ color: "var(--color9)" }}>Ngừng hoạt động</StyledTableCell>
-                                }
+                                } */}
                                 <StyledTableCell align="center">
                                     <ButtonGroup>
-                                        <ServiceEditModal
+                                        {/* <ServiceEditModal
                                             idDichVu={row.IDDichVu}
                                             donGia={row.DonGiaDV}
                                             reRenderServiceMain={reRender}
-                                        />
-                                        {
+                                        /> */}
+                                        {/* {
                                             row.TinhTrangDV === 1
                                                 ?
                                                 <IconButton onClick={() => handleDelete(row.IDDichVu)}>
@@ -266,7 +263,7 @@ export default function ServiceMain() {
                                                         <RestartAltIcon />
                                                     </Tooltip>
                                                 </IconButton>
-                                        }
+                                        } */}
                                     </ButtonGroup>
                                 </StyledTableCell>
                             </StyledTableRow>

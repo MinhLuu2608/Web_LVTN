@@ -56,15 +56,15 @@ export default function ReceiptDetailOffline({ receipt, handleClose }) {
                     <IconButton variant="contained" onClick={handleClose}><CloseIcon /></IconButton>
                 </Stack>
                 <Box>
-                    <Typography variant="h6" style={{ display: 'inline-block', textAlign: "left" }}>
+                    {/* <Typography variant="h6" style={{ display: 'inline-block', textAlign: "left" }}>
                         <img src="/static/media/Logo.d35d7c77ea0ad085e30c.jpg" alt="Logo" style={{ width: 70, textAlign: "left", marginLeft: 70 }}></img>
-                    </Typography>
+                    </Typography> */}
                     <Typography variant="h5" style={{ paddingBottom: 30, textAlign: "center" }}>
                         <b>Hoá đơn phí môi trường tháng {receipt.Thang} </b>
                     </Typography>
                     <Box sx={Info__style}>
                         <Typography variant="h6" style={{ fontSize: 14, width: 800, paddingBottom: 0, paddingRight: 40 }}>
-                            <b>Công Ty Môi Trường SHIZEN</b>
+                            <b>Công Ty Môi Trường ENVI</b>
                         </Typography>
                         <Typography variant="h6" style={{ fontSize: 14, width: 800, paddingBottom: 0, paddingRight: 40 }}>
                             <b>Mã KH: </b> {receipt.MaKhachHang}

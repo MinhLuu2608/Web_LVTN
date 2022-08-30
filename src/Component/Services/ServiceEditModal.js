@@ -50,7 +50,7 @@ export default function ServiceEditModal({ idDichVu, donGia, reRenderServiceMain
         } else validDonGia = true
 
         if (validDonGia) {
-            fetch("http://localhost:5199/api/service", {
+            fetch("http://localhost:5199/api/dichvu", {
                 method: 'PUT',
                 headers: {
                     'Accept': 'application/json',

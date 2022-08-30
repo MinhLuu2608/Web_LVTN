@@ -12,6 +12,7 @@ import HomePrivateStaff from './Component/Home/HomePrivateStaff';
 import Customer from './Component/Customer/Customer';
 import ReceiptMain from './Component/Receipt/ReceiptMain';
 import ServiceMain from './Component/Services/ServiceMain';
+import OrderMain from './Component/ServiceOrder/OrderMain';
 
 function App() {
 
@@ -33,7 +34,7 @@ function App() {
             <Route path='tuyenthu' element={<TuyenThuMain />} />
             <Route path='hoadon' element={<ReceiptMain />} />
             <Route path='service' element={<ServiceMain />} />
-            <Route path='order' element={<ReceiptMain />} />
+            <Route path='order' element={<OrderMain />} />
             <Route path='receiveorder' element={<ReceiptMain />} />
           </Route>
           <Route path='*' element={<Client />} />
