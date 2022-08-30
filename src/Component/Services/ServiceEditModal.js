@@ -35,11 +35,12 @@ export default function ServiceEditModal({ idDichVu, donGia, reRenderServiceMain
     const [, dispatch] = React.useContext(SnackBarContext)
 
     const [open, setOpen] = React.useState(false);
-    const [donGiaDV, setDonGiaDV] = React.useState(0);
+    const [donGiaDV, setDonGiaDV] = React.useState(donGia);
     const [donGiaError, setDonGiaError] = React.useState(false);
 
     const handleOpen = () => {
-        setOpen(true);
+        setDonGiaDV(donGia)
+        setOpen(true)
     }
 
     const handleClose = () => setOpen(false);
@@ -55,33 +56,33 @@ export default function ServiceEditModal({ idDichVu, donGia, reRenderServiceMain
         if (donGiaDV === '' || isNaN(+donGiaDV)) {
             setDonGiaError(true)
         } else validDonGia = true
-        // if(validDonGia){
-        //     fetch("http://localhost:5199/api/kythu", {
-        //         method: 'PUT',
-        //         headers: {
-        //             'Accept': 'application/json',
-        //             'Content-Type': 'application/json'
-        //         },
-        //         body: JSON.stringify({
-        //             IDKyThu: idKyThu,
-        //             Thang: Thang,
-        //             Nam: Nam
-        //         })
-        //     })
-        //         .then(res => res.json())
-        //         .then((result) => {
-        //             reRenderKyThuMain();
-        //             dispatch(setOpenSnackBar());
-        //             dispatch(setMessage(result.message));
-        //             dispatch(setSeverity(result.severity));
-        //             handleClose();
-        //         },
-        //             (error) => {
-        //                 dispatch(setOpenSnackBar());
-        //                 dispatch(setMessage("Failed"));
-        //                 dispatch(setSeverity("error"));
-        //             });
-        // }
+
+        if (validDonGia) {
+            fetch("http://localhost:5199/api/service", {
+                method: 'PUT',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    IDDichVu: idDichVu,
+                    DonGiaDV: donGiaDV
+                })
+            })
+                .then(res => res.json())
+                .then((result) => {
+                    reRenderServiceMain();
+                    dispatch(setOpenSnackBar());
+                    dispatch(setMessage(result.message));
+                    dispatch(setSeverity(result.severity));
+                    handleClose();
+                },
+                    (error) => {
+                        dispatch(setOpenSnackBar());
+                        dispatch(setMessage("Failed"));
+                        dispatch(setSeverity("error"));
+                    });
+        }
     }
 
     return (
@@ -103,6 +104,7 @@ export default function ServiceEditModal({ idDichVu, donGia, reRenderServiceMain
                     </Typography>
                     <TextField
                         required
+                        value={donGiaDV}
                         style={{ width: 300 }}
                         label="Đơn giá"
                         variant="outlined"
