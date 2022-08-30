@@ -23,14 +23,6 @@ const style = {
     p: 4,
 };
 
-let yearArray = [];
-
-let curYear = new Date().getFullYear();
-for (let i = curYear - 30; i <= curYear + 10; i++) {
-    yearArray.push(i);
-}
-
-
 export default function ServiceEditModal({ idDichVu, donGia, reRenderServiceMain }) {
     const [, dispatch] = React.useContext(SnackBarContext)
 
