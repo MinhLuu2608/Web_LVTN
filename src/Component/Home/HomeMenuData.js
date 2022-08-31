@@ -72,7 +72,7 @@ const QuyenChung = [
             },
             {
                 title: 'Danh sách đơn hàng đã nhận',
-                path: '/home/empreceipt'
+                path: '/home/receivedorder'
             },
         ]
     },

@@ -14,6 +14,7 @@ import ReceiptMain from './Component/Receipt/ReceiptMain';
 import ServiceMain from './Component/Services/ServiceMain';
 import OrderMain from './Component/ServiceOrder/OrderMain';
 import ProcessOrderMain from './Component/NeedProcessOrder/OrderMain';
+import ReceivedOrderMain from './Component/ReceivedOrder/ReceivedOrderMain';
 
 function App() {
 
@@ -37,7 +38,7 @@ function App() {
             <Route path='service' element={<ServiceMain />} />
             <Route path='order' element={<OrderMain />} />
             <Route path='processorder' element={<ProcessOrderMain />} />
-            <Route path='receiveorder' element={<ReceiptMain />} />
+            <Route path='receivedorder' element={<ReceivedOrderMain />} />
           </Route>
           <Route path='*' element={<Client />} />
 

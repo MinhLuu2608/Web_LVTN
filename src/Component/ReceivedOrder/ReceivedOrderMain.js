@@ -23,10 +23,12 @@ import { styled } from '@mui/material/styles'
 import ButtonGroup from '@mui/material/ButtonGroup'
 import SnackBarContext from '../SnackBar/SnackBarContext'
 import { setMessage, setOpenSnackBar, setSeverity } from '../SnackBar/SnackBarAction'
-import OrderDetailModal from './OrderDetailModal'
-import OrderFilter from './OrderFilter'
-import OrderAcceptModal from './OrderAcceptModal'
-import OrderDeleteModal from './OrderDeleteModal'
+import { GetCookie, cookie } from '../Cookie/CookieFunc'
+import ReceivedOrderFilter from './ReceivedOrderFilter'
+import ReceivedOrderDetailModal from './ReceivedOrderDetailModal'
+import ReceivedOrderDeleteModal from './ReceivedOrderDeleteModal'
+import RestartAltIcon from '@mui/icons-material/RestartAlt';
+import Tooltip from '@mui/material/Tooltip';
 
 function TablePaginationActions(props) {
     const theme = useTheme();
@@ -90,7 +92,7 @@ TablePaginationActions.propTypes = {
 };
 
 
-export default function ProcessOrderMain() {
+export default function ReceivedOrderMain() {
 
     // Table Style
     const StyledTableCell = styled(TableCell)(({ theme }) => ({
@@ -113,13 +115,17 @@ export default function ProcessOrderMain() {
         },
     }));
 
+    GetCookie(document.cookie)
+
     const [, dispatch] = React.useContext(SnackBarContext)
 
     const [rows, setRows] = React.useState([])
     const [page, setPage] = React.useState(0)
     const [rowsPerPage, setRowsPerPage] = React.useState(10)
     const [updateState, setUpdateState] = React.useState(true)
+    const [idNhanVien, setIDNhanVien] = React.useState(0)
     const [searchTenKH, setSearchTenKH] = React.useState("")
+    const [searchTinhTrangXuLy, setSearchTinhTrangXuLy] = React.useState("Đã tiếp nhận")
 
     const emptyRows =
         page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
@@ -136,19 +142,43 @@ export default function ProcessOrderMain() {
     const handleChangeTenKH = (event) => {
         setSearchTenKH(event.target.value)
     }
+    const handleChangeTinhTrangXuLy = (value) => {
+        setSearchTinhTrangXuLy(value)
+    }
+
+    const handleRecovery = (idDonHang) => {
+        fetch("http://localhost:5199/api/donhang/recovery", {
+            method: 'PUT',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                IDDonHang: idDonHang
+            })
+        })
+            .then(res => res.json())
+            .then((result) => {
+                reRender()
+                dispatch(setOpenSnackBar())
+                dispatch(setMessage(result.message))
+                dispatch(setSeverity(result.severity))
+            })
+    }
 
     const reRender = () => setUpdateState(!updateState);
 
     React.useEffect(() => {
-        fetch("http://localhost:5199/api/donhang/", {
+        fetch("http://localhost:5199/api/donhang/received", {
             method: 'POST',
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
+                IDNhanVien: idNhanVien,
                 TenKhachHang: searchTenKH,
-                TinhTrangXuLy: 'Chờ xử lý'
+                TinhTrangXuLy: searchTinhTrangXuLy
             })
         })
             .then(res => res.json())
@@ -160,26 +190,43 @@ export default function ProcessOrderMain() {
                     dispatch(setMessage("Failed"));
                     dispatch(setSeverity("error"));
                 });
-    }, [updateState, searchTenKH, dispatch])
+    }, [updateState, searchTenKH, searchTinhTrangXuLy, idNhanVien, dispatch])
+
+    React.useEffect(() => {
+        GetCookie(document.cookie)
+        setIDNhanVien(cookie)
+    }, [updateState])
 
 
-    const showTinhTrangXuLy = (tinhTrangXuLy) => {
+    const showTinhTrangXuLy = (tinhTrangXuLy, note) => {
         let color = "";
-        if (tinhTrangXuLy === 'Chờ xử lý') {
+        if (tinhTrangXuLy === 'Đã tiếp nhận') {
             color = "var(--color9)"
         }
+        if (tinhTrangXuLy === 'Đã hoàn thành') {
+            color = "var(--color7)"
+        }
+
+        if (tinhTrangXuLy === 'Đã bị huỷ') {
+            color = "var(--color14)"
+        }
+        if (tinhTrangXuLy === 'Đã bị huỷ')
+            return <StyledTableCell align="center" sx={{ color: color }}>{tinhTrangXuLy}: {note}</StyledTableCell>
+
         return <StyledTableCell align="center" sx={{ color: color }}>{tinhTrangXuLy}</StyledTableCell>
     }
 
     return (
         <>
             <Typography variant="p" sx={{ fontSize: 30, color: "var(--color2)", fontWeight: "bold", paddingBottom: 20 }}>
-                Danh sách đơn hàng chờ xử lý
+                Danh sách đơn hàng đã nhận
             </Typography>
             <Stack direction="row" justifyContent="center" alignItems="center" spacing={2} >
-                <OrderFilter
+                <ReceivedOrderFilter
                     searchTenKH={searchTenKH}
+                    searchTinhTrangXuLy={searchTinhTrangXuLy}
                     changeTenKH={handleChangeTenKH}
+                    changeTinhTrangXuLy={handleChangeTinhTrangXuLy}
                 />
             </Stack>
             <TableContainer style={{ marginTop: 20 }} component={Paper}>
@@ -190,6 +237,7 @@ export default function ProcessOrderMain() {
                             <StyledTableCell align="center">Tên khách hàng</StyledTableCell>
                             <StyledTableCell align="center">Ngày tạo</StyledTableCell>
                             <StyledTableCell align="center">Địa chỉ khách hàng</StyledTableCell>
+                            <StyledTableCell align="center">Ngày hẹn</StyledTableCell>
                             <StyledTableCell align="center">Tình trạng</StyledTableCell>
                             <StyledTableCell align="center">Thao tác</StyledTableCell>
                         </StyledTableRow>
@@ -209,20 +257,30 @@ export default function ProcessOrderMain() {
                                 <StyledTableCell>{row.TenKhachHang}</StyledTableCell>
                                 <StyledTableCell align="center">{row.NgayTaoConvert}</StyledTableCell>
                                 <StyledTableCell align="center">{row.DiaChiKH}</StyledTableCell>
+                                <StyledTableCell align="center">{row.NgayHenConvert}</StyledTableCell>
                                 {
-                                    showTinhTrangXuLy(row.TinhTrangXuLy)
+                                    showTinhTrangXuLy(row.TinhTrangXuLy, row.Note)
                                 }
                                 <StyledTableCell align="center">
                                     <ButtonGroup>
-                                        <OrderDetailModal orderInfo={row} />
-                                        <OrderAcceptModal
+                                        <ReceivedOrderDetailModal orderInfo={row} />
+                                        {/* <OrderAcceptModal
                                             idDonHang={row.IDDonHang}
                                             reRenderMain={reRender}
-                                        />
-                                        <OrderDeleteModal
-                                            idDonHang={row.IDDonHang}
-                                            reRenderMain={reRender}
-                                        />
+                                        /> */}
+                                        {
+                                            row.TinhTrangXuLy !== 'Đã bị huỷ'
+                                                ? <ReceivedOrderDeleteModal
+                                                    idDonHang={row.IDDonHang}
+                                                    idNhanVien={idNhanVien}
+                                                    reRenderMain={reRender}
+                                                />
+                                                : <IconButton onClick={() => handleRecovery(row.IDDonHang)}>
+                                                    <Tooltip sx={{ color: 'var(--color2)' }} title="Phục hồi">
+                                                        <RestartAltIcon />
+                                                    </Tooltip>
+                                                </IconButton>
+                                        }
                                     </ButtonGroup>
                                 </StyledTableCell>
                             </StyledTableRow>

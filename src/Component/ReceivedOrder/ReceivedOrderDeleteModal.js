@@ -13,7 +13,6 @@ import MenuItem from '@mui/material/MenuItem'
 import FormControl from '@mui/material/FormControl'
 import { TextField } from '@mui/material';
 import Select from '@mui/material/Select'
-import { GetCookie, cookie } from '../Cookie/CookieFunc'
 import DeleteIcon from '@mui/icons-material/Delete'
 
 const style = {
@@ -29,9 +28,8 @@ const style = {
 };
 
 
-export default function OrderDeleteModal({ idDonHang, reRenderMain }) {
+export default function ReceivedOrderDeleteModal({ idDonHang, idNhanVien, reRenderMain }) {
 
-    GetCookie(document.cookie)
     const [, dispatch] = React.useContext(SnackBarContext)
     const [lyDo, setLyDo] = React.useState("SPAM")
     const [lyDoKhac, setLyDoKhac] = React.useState("SPAM")
@@ -71,7 +69,7 @@ export default function OrderDeleteModal({ idDonHang, reRenderMain }) {
             }
         }
         if (validLyDoKhac) {
-            fetch("http://localhost:5199/api/donhang/cancel", {
+            fetch("http://localhost:5199/api/donhang/cancelreceveid", {
                 method: 'POST',
                 headers: {
                     'Accept': 'application/json',
@@ -79,7 +77,7 @@ export default function OrderDeleteModal({ idDonHang, reRenderMain }) {
                 },
                 body: JSON.stringify({
                     IDDonHang: idDonHang,
-                    IDNhanVien: cookie,
+                    IDNhanVien: idNhanVien,
                     Note: note
                 })
             })
