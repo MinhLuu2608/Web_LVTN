@@ -13,6 +13,7 @@ import Customer from './Component/Customer/Customer';
 import ReceiptMain from './Component/Receipt/ReceiptMain';
 import ServiceMain from './Component/Services/ServiceMain';
 import OrderMain from './Component/ServiceOrder/OrderMain';
+import ProcessOrderMain from './Component/NeedProcessOrder/OrderMain';
 
 function App() {
 
@@ -35,6 +36,7 @@ function App() {
             <Route path='hoadon' element={<ReceiptMain />} />
             <Route path='service' element={<ServiceMain />} />
             <Route path='order' element={<OrderMain />} />
+            <Route path='processorder' element={<ProcessOrderMain />} />
             <Route path='receiveorder' element={<ReceiptMain />} />
           </Route>
           <Route path='*' element={<Client />} />

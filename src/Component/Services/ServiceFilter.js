@@ -9,7 +9,7 @@ import Stack from '@mui/material/Stack';
 export default function ServiceFilter({ searchLoaiDichVu, searchTinhTrangDV, changeLoaiDichVu, changeTinhTrangDV }) {
 
     return (
-        <Box sx={{ minWidth: 120 }}>
+        <Box>
             <Stack direction="row" justifyContent="center" alignItems="center" spacing={2} >
                 <FormControl style={{ width: 200 }}>
                     <InputLabel>Loại dịch vụ</InputLabel>

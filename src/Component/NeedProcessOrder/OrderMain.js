@@ -25,6 +25,10 @@ import SnackBarContext from '../SnackBar/SnackBarContext'
 import { setMessage, setOpenSnackBar, setSeverity } from '../SnackBar/SnackBarAction'
 import OrderDetailModal from './OrderDetailModal'
 import OrderFilter from './OrderFilter'
+import OrderAcceptModal from './OrderAcceptModal'
+import Tooltip from '@mui/material/Tooltip';
+import DeleteIcon from '@mui/icons-material/Delete';
+import OrderDeleteModal from './OrderDeleteModal'
 
 function TablePaginationActions(props) {
     const theme = useTheme();
@@ -88,7 +92,7 @@ TablePaginationActions.propTypes = {
 };
 
 
-export default function OrderMain() {
+export default function ProcessOrderMain() {
 
     // Table Style
     const StyledTableCell = styled(TableCell)(({ theme }) => ({
@@ -116,8 +120,8 @@ export default function OrderMain() {
     const [rows, setRows] = React.useState([])
     const [page, setPage] = React.useState(0)
     const [rowsPerPage, setRowsPerPage] = React.useState(10)
+    const [updateState, setUpdateState] = React.useState(true)
     const [searchTenKH, setSearchTenKH] = React.useState("")
-    const [searchTinhTrangXuLy, setSearchTinhTrangXuLy] = React.useState("Chờ xử lý")
 
     const emptyRows =
         page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
@@ -134,21 +138,10 @@ export default function OrderMain() {
     const handleChangeTenKH = (event) => {
         setSearchTenKH(event.target.value)
     }
-    const handleChangeTinhTrangXuLy = (value) => {
-        setSearchTinhTrangXuLy(value)
-    }
+
+    const reRender = () => setUpdateState(!updateState);
 
     React.useEffect(() => {
-        // fetch("http://localhost:5199/api/donhang/")
-        //     .then(response => response.json())
-        //     .then(function (donHang) {
-        //         setRows(donHang);
-        //     },
-        //         (error) => {
-        //             dispatch(setOpenSnackBar());
-        //             dispatch(setMessage("Failed"));
-        //             dispatch(setSeverity("error"));
-        //         });
         fetch("http://localhost:5199/api/donhang/", {
             method: 'POST',
             headers: {
@@ -157,7 +150,7 @@ export default function OrderMain() {
             },
             body: JSON.stringify({
                 TenKhachHang: searchTenKH,
-                TinhTrangXuLy: searchTinhTrangXuLy
+                TinhTrangXuLy: 'Chờ xử lý'
             })
         })
             .then(res => res.json())
@@ -169,46 +162,26 @@ export default function OrderMain() {
                     dispatch(setMessage("Failed"));
                     dispatch(setSeverity("error"));
                 });
-    }, [searchTenKH, searchTinhTrangXuLy, dispatch])
+    }, [updateState, searchTenKH, dispatch])
 
 
-    const showNhanVienTiepNhan = (hoTen) => {
-        if (hoTen !== null) return <StyledTableCell align="center">{hoTen}</StyledTableCell>
-        else return <StyledTableCell align="center" sx={{ color: "var(--color14)" }}>Chưa có nhân viên</StyledTableCell>
-    }
-
-    const showTinhTrangXuLy = (tinhTrangXuLy, note) => {
+    const showTinhTrangXuLy = (tinhTrangXuLy) => {
         let color = "";
         if (tinhTrangXuLy === 'Chờ xử lý') {
             color = "var(--color9)"
         }
-        if (tinhTrangXuLy === 'Đã tiếp nhận') {
-            color = "var(--color7)"
-        }
-        if (tinhTrangXuLy === 'Đã hoàn thành') {
-            color = "var(--color2)"
-        }
-
-        if (tinhTrangXuLy === 'Đã bị huỷ') {
-            color = "var(--color14)"
-        }
-        if (tinhTrangXuLy === 'Đã bị huỷ')
-            return <StyledTableCell align="center" sx={{ color: color }}>{tinhTrangXuLy}: {note}</StyledTableCell>
-
         return <StyledTableCell align="center" sx={{ color: color }}>{tinhTrangXuLy}</StyledTableCell>
     }
 
     return (
         <>
             <Typography variant="p" sx={{ fontSize: 30, color: "var(--color2)", fontWeight: "bold", paddingBottom: 20 }}>
-                Quản lý đơn hàng dịch vụ
+                Danh sách đơn hàng chờ xử lý
             </Typography>
             <Stack direction="row" justifyContent="center" alignItems="center" spacing={2} >
                 <OrderFilter
                     searchTenKH={searchTenKH}
-                    searchTinhTrangXuLy={searchTinhTrangXuLy}
                     changeTenKH={handleChangeTenKH}
-                    changeTinhTrangXuLy={handleChangeTinhTrangXuLy}
                 />
             </Stack>
             <TableContainer style={{ marginTop: 20 }} component={Paper}>
@@ -217,8 +190,8 @@ export default function OrderMain() {
                         <StyledTableRow>
                             <StyledTableCell>Mã đơn hàng</StyledTableCell>
                             <StyledTableCell>Tên khách hàng</StyledTableCell>
+                            <StyledTableCell>Địa chỉ khách hàng</StyledTableCell>
                             <StyledTableCell align="center">Ngày Tạo</StyledTableCell>
-                            <StyledTableCell align="center">Tên nhân viên</StyledTableCell>
                             <StyledTableCell align="center">Tình trạng</StyledTableCell>
                             <StyledTableCell align="center">Thao tác</StyledTableCell>
                         </StyledTableRow>
@@ -237,20 +210,25 @@ export default function OrderMain() {
                                 </StyledTableCell>
                                 <StyledTableCell>{row.TenKhachHang}</StyledTableCell>
                                 <StyledTableCell align="center">{row.NgayTaoConvert}</StyledTableCell>
+                                <StyledTableCell align="center">{row.DiaChiKH}</StyledTableCell>
                                 {
-                                    showNhanVienTiepNhan(row.HoTen)
-                                }
-                                {
-                                    showTinhTrangXuLy(row.TinhTrangXuLy, row.Note)
+                                    showTinhTrangXuLy(row.TinhTrangXuLy)
                                 }
                                 <StyledTableCell align="center">
                                     <ButtonGroup>
                                         <OrderDetailModal orderInfo={row} />
+                                        <OrderAcceptModal
+                                            idDonHang={row.IDDonHang}
+                                            reRenderMain={reRender}
+                                        />
+                                        <OrderDeleteModal
+                                            idDonHang={row.IDDonHang}
+                                            reRenderMain={reRender}
+                                        />
                                     </ButtonGroup>
                                 </StyledTableCell>
                             </StyledTableRow>
                         ))}
-
                         {emptyRows > 0 && (
                             <TableRow style={{ height: 53 * emptyRows }}>
                                 <TableCell colSpan={6} />

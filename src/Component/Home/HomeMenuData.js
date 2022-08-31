@@ -68,7 +68,7 @@ const QuyenChung = [
         child: [
             {
                 title: 'Danh sách đơn hàng cần xử lý',
-                path: '/home/empreceipt'
+                path: '/home/processorder'
             },
             {
                 title: 'Danh sách đơn hàng đã nhận',
