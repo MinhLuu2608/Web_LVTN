@@ -45,8 +45,10 @@ export default function OrderDetailModal({ orderInfo }) {
     const [open, setOpen] = React.useState(false)
     const [order,] = React.useState(orderInfo)
     const [dichVuList, setDichVuList] = React.useState([])
+    const [tableSX, setTableSX] = React.useState({})
 
     const handleOpen = () => {
+        setTableSX({ width: 760, border: 'solid black 1px', marginTop: 1, overflowY: 'scroll', overflowX: 'hidden', maxHeight: 300 })
         setOpen(true);
     }
 
@@ -68,7 +70,7 @@ export default function OrderDetailModal({ orderInfo }) {
                 </Tooltip>
             </IconButton>
             <Modal
-                style={{ overflowY: 'scroll', marginTop: 15, marginBottom: 10, }}
+                style={{ marginTop: 15, marginBottom: 10 }}
                 open={open}
                 onClose={handleClose}
                 aria-labelledby="modal-modal-title"
@@ -105,31 +107,31 @@ export default function OrderDetailModal({ orderInfo }) {
                                 <b>Họ tên nhân viên: </b> {order.HoTen}
                             </Typography>
                             <Typography variant="h6" style={{ fontSize: 13, width: 850, paddingRight: 40 }}>
-                                <b>Ngày thu: </b> {order.NgayThu}
+                                <b>Ngày thu: </b> {order.NgayThuConvert}
                             </Typography>
-                            <TableContainer sx={{ width: 752, border: 'solid black 1px', marginTop: 1 }}>
-                                <Table sx={{ width: 750 }} aria-label="caption table">
+                            <TableContainer sx={tableSX}>
+                                <Table sx={{ width: 760 }} aria-label="caption table">
                                     <TableHead>
                                         <TableRow>
-                                            <TableCell align="left" sx={{ fontSize: 12, fontWeight: 'bold', borderRight: 'solid black 1px', borderBottom: 'solid black 1px' }} >Mã dịch vụ</TableCell>
-                                            <TableCell align="left" sx={{ fontSize: 12, fontWeight: 'bold', borderRight: 'solid black 1px', borderBottom: 'solid black 1px' }}>Tên dịch vụ</TableCell>
-                                            <TableCell align="left" sx={{ fontSize: 12, fontWeight: 'bold', borderRight: 'solid black 1px', borderBottom: 'solid black 1px' }}>Loại dịch vụ</TableCell>
-                                            <TableCell align="left" sx={{ fontSize: 12, fontWeight: 'bold', borderRight: 'solid black 1px', borderBottom: 'solid black 1px' }}>Đơn vị tính</TableCell>
-                                            <TableCell align="left" sx={{ fontSize: 12, fontWeight: 'bold', borderRight: 'solid black 1px', borderBottom: 'solid black 1px' }}>Số lượng</TableCell>
-                                            <TableCell align="left" sx={{ fontSize: 12, fontWeight: 'bold', borderRight: 'solid black 1px', borderBottom: 'solid black 1px' }}>Đơn giá</TableCell>
-                                            <TableCell align="left" sx={{ fontSize: 12, fontWeight: 'bold', borderBottom: 'solid black 1px' }}>Tổng</TableCell>
+                                            <TableCell align="left" sx={{ fontSize: 12, fontWeight: 'bold', borderRight: 'solid black 1px', borderBottom: 'solid black 1px', width: '15%' }} >Mã dịch vụ</TableCell>
+                                            <TableCell align="left" sx={{ fontSize: 12, fontWeight: 'bold', borderRight: 'solid black 1px', borderBottom: 'solid black 1px', width: '25%' }}>Tên dịch vụ</TableCell>
+                                            <TableCell align="left" sx={{ fontSize: 12, fontWeight: 'bold', borderRight: 'solid black 1px', borderBottom: 'solid black 1px', width: '15%' }}>Loại dịch vụ</TableCell>
+                                            <TableCell align="left" sx={{ fontSize: 12, fontWeight: 'bold', borderRight: 'solid black 1px', borderBottom: 'solid black 1px', width: '10%' }}>Đơn vị tính</TableCell>
+                                            <TableCell align="left" sx={{ fontSize: 12, fontWeight: 'bold', borderRight: 'solid black 1px', borderBottom: 'solid black 1px', width: '10%' }}>Số lượng</TableCell>
+                                            <TableCell align="left" sx={{ fontSize: 12, fontWeight: 'bold', borderRight: 'solid black 1px', borderBottom: 'solid black 1px', width: '10%' }}>Đơn giá</TableCell>
+                                            <TableCell align="left" sx={{ fontSize: 12, fontWeight: 'bold', borderBottom: 'solid black 1px', width: '15%' }}>Tổng</TableCell>
                                         </TableRow>
                                     </TableHead>
                                     <TableBody>
                                         {
                                             dichVuList.map((dichVu) => (
                                                 <TableRow key={dichVu.MaDichVu}>
-                                                    <TableCell align="left" sx={{ fontSize: 12, borderRight: 'solid black 1px' }}>{dichVu.MaDichVu}</TableCell>
-                                                    <TableCell align="left" sx={{ fontSize: 12, borderRight: 'solid black 1px' }}>{dichVu.TenDichVu}</TableCell>
-                                                    <TableCell align="left" sx={{ fontSize: 12, borderRight: 'solid black 1px' }}>{dichVu.LoaiDichVu}</TableCell>
-                                                    <TableCell align="left" sx={{ fontSize: 12, borderRight: 'solid black 1px' }}>{dichVu.DonViTinh}</TableCell>
-                                                    <TableCell align="left" sx={{ fontSize: 12, borderRight: 'solid black 1px' }}>{dichVu.SoLuong}</TableCell>
-                                                    <TableCell align="left" sx={{ fontSize: 12, borderRight: 'solid black 1px' }}>{dichVu.DonGiaDV}đ</TableCell>
+                                                    <TableCell align="left" sx={{ fontSize: 13, borderRight: 'solid black 1px' }}>{dichVu.MaDichVu}</TableCell>
+                                                    <TableCell align="left" sx={{ fontSize: 13, borderRight: 'solid black 1px' }}>{dichVu.TenDichVu}</TableCell>
+                                                    <TableCell align="left" sx={{ fontSize: 13, borderRight: 'solid black 1px' }}>{dichVu.LoaiDichVu}</TableCell>
+                                                    <TableCell align="left" sx={{ fontSize: 13, borderRight: 'solid black 1px' }}>{dichVu.DonViTinh}</TableCell>
+                                                    <TableCell align="left" sx={{ fontSize: 13, borderRight: 'solid black 1px' }}>{dichVu.SoLuong}</TableCell>
+                                                    <TableCell align="left" sx={{ fontSize: 13, borderRight: 'solid black 1px' }}>{dichVu.DonGiaDV}đ</TableCell>
                                                     <TableCell align="left">{dichVu.TongTienDV}đ</TableCell>
                                                 </TableRow>
                                             ))

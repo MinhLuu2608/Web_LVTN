@@ -470,14 +470,14 @@ function Customer({ collectCustomer }) {
                 return (
                     <Stack direction="row-reverse" spacing={2} alignItems="flex-end" marginTop={2}>
                         <CustomerFormAdd handleResetPage={handleResetPage} importdistricts={districts} importwards={wards}></CustomerFormAdd>
-                        <ExportFileExcel customers={chosenCustomers} handleResetPage={handleResetPage} />
+                        {/* <ExportFileExcel customers={chosenCustomers} handleResetPage={handleResetPage} /> */}
                     </Stack>
                 )
             } else {
                 return (
                     <Stack direction="row-reverse" spacing={2} alignItems="flex-end" marginTop={2}>
                         <CustomerFormAdd handleResetPage={handleResetPage} importdistricts={districts} importwards={wards}></CustomerFormAdd>
-                        <ExportFileExcel customers={customers} handleResetPage={handleResetPage} />
+                        {/* <ExportFileExcel customers={customers} handleResetPage={handleResetPage} /> */}
                     </Stack>
                 )
             }

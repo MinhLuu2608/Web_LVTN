@@ -29,6 +29,9 @@ import ReceivedOrderDetailModal from './ReceivedOrderDetailModal'
 import ReceivedOrderDeleteModal from './ReceivedOrderDeleteModal'
 import RestartAltIcon from '@mui/icons-material/RestartAlt';
 import Tooltip from '@mui/material/Tooltip';
+import EditIcon from '@mui/icons-material/Edit'
+import { Routes, Route, Link } from 'react-router-dom';
+
 
 function TablePaginationActions(props) {
     const theme = useTheme();
@@ -216,6 +219,8 @@ export default function ReceivedOrderMain() {
         return <StyledTableCell align="center" sx={{ color: color }}>{tinhTrangXuLy}</StyledTableCell>
     }
 
+
+
     return (
         <>
             <Typography variant="p" sx={{ fontSize: 30, color: "var(--color2)", fontWeight: "bold", paddingBottom: 20 }}>
@@ -263,8 +268,22 @@ export default function ReceivedOrderMain() {
                                 }
                                 <StyledTableCell align="center">
                                     <ButtonGroup>
-                                        <ReceivedOrderDetailModal orderInfo={row} />
-                                        {/* <OrderAcceptModal
+                                        <ReceivedOrderDetailModal orderInfo={row} reRenderMain={reRender} />
+                                        <Link to={"/home/receivedorder/edit/" + row.IDDonHang}>
+                                            <IconButton variant="text" sx={{ color: 'var(--color8)' }}>
+                                                <Tooltip title="Sửa thông tin">
+                                                    <EditIcon />
+                                                </Tooltip>
+                                            </IconButton>
+                                        </Link>
+                                        {/* <Link to={"/home/receivedorder/edit/" + row.IDDonHang}>
+                                            <IconButton variant="text" sx={{ color: 'var(--color8)' }}>
+                                                <Tooltip title="Sửa thông tin">
+                                                    <EditIcon />
+                                                </Tooltip>
+                                            </IconButton>
+                                        </Link> */}
+                                        {/* <ReceivedOrderEditModal
                                             idDonHang={row.IDDonHang}
                                             reRenderMain={reRender}
                                         /> */}

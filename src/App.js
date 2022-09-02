@@ -15,6 +15,7 @@ import ServiceMain from './Component/Services/ServiceMain';
 import OrderMain from './Component/ServiceOrder/OrderMain';
 import ProcessOrderMain from './Component/NeedProcessOrder/OrderMain';
 import ReceivedOrderMain from './Component/ReceivedOrder/ReceivedOrderMain';
+import ReceivedOrderEdit from './Component/ReceivedOrder/ReceivedOrderEdit';
 
 function App() {
 
@@ -39,6 +40,7 @@ function App() {
             <Route path='order' element={<OrderMain />} />
             <Route path='processorder' element={<ProcessOrderMain />} />
             <Route path='receivedorder' element={<ReceivedOrderMain />} />
+            <Route path='receivedorder/edit/:id' element={<ReceivedOrderEdit />} />
           </Route>
           <Route path='*' element={<Client />} />
 

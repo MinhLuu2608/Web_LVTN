@@ -324,7 +324,7 @@ export default function Employee() {
             {/* Buttons: Xuất Excel, Thêm Nhân Viên */}
             <Stack direction="row-reverse" spacing={2} marginBottom={1} paddingTop={2}>
                 <EmployeeFormAdd employees={employees} handleResetPage={handleResetPage}></EmployeeFormAdd>
-                <ExportFileExcel employees={filterEmpList()} getQuyenByIDNhanVien={getQuyenByIDNhanVien} empRolesExcel={empRoles} rolesExcel={roles} handleResetPage={handleResetPage}></ExportFileExcel>
+                {/* <ExportFileExcel employees={filterEmpList()} getQuyenByIDNhanVien={getQuyenByIDNhanVien} empRolesExcel={empRoles} rolesExcel={roles} handleResetPage={handleResetPage}></ExportFileExcel> */}
             </Stack>
 
             {/* Table Danh Sách Nhân Viên */}

@@ -336,7 +336,6 @@ function Home() {
 
       <Main open={open} >
         <DrawerHeader />
-
         <Outlet />
       </Main>
     </Box>

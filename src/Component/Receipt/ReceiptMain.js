@@ -291,7 +291,7 @@ export default function ReceiptMain() {
                 Quản lý hoá đơn
             </Typography>
             <HoaDonAddModal />
-            <ExportReceiptList hoadon={rows} />
+            {/* <ExportReceiptList hoadon={rows} /> */}
             <Stack direction="row" justifyContent="center" alignItems="center" spacing={2} >
                 <ReceiptFilter
                     thanhToan={searchThanhToan}
