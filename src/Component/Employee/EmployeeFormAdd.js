@@ -385,14 +385,14 @@ export default function EmployeeFormAdd({ employees, handleResetPage }) {
                                     color="primary"
                                     sx={{ marginRight: 2 }}
                                 >
-                                    Submit
+                                    Xác nhận
                                 </Button>
                                 <Button
                                     variant="contained"
                                     color="primary"
                                     onClick={handleClose}
                                 >
-                                    Cancel
+                                    Huỷ bỏ
                                 </Button>
                             </Box>
 

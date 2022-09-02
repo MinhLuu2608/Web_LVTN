@@ -321,8 +321,9 @@ export default function CustomerFormEdit({ customer, handleResetPage, importdist
                             </Select>
                         </Box>
                     </Box>
-                    <Stack sx={{ padding: 3 }} direction="column" spacing={2} alignItems="flex-end">
-                        <Button variant="contained" onClick={handleSubmit}>Xác Nhận</Button>
+                    <Stack sx={{ padding: 2 }} direction="row" spacing={2} justifyContent="flex-end">
+                        <Button variant="contained" onClick={handleSubmit} sx={{ width: 200 }}>Xác nhận</Button>
+                        <Button variant="contained" onClick={handleClose} sx={{ width: 200 }}>Huỷ bỏ</Button>
                     </Stack>
                 </Box>
             </Modal>

@@ -311,8 +311,9 @@ export default function CustomerFormAdd({ customer, handleResetPage, importdistr
                             </Select>
                         </Box>
                     </Box>
-                    <Stack sx={{ padding: 2 }} direction="column" spacing={2} alignItems="flex-end">
-                        <Button variant="contained" onClick={handleSubmit}>Thêm Khách Hàng</Button>
+                    <Stack sx={{ padding: 2 }} direction="row" spacing={2} justifyContent="flex-end">
+                        <Button variant="contained" onClick={handleSubmit} sx={{ width: 200 }}>Xác nhận</Button>
+                        <Button variant="contained" onClick={handleClose} sx={{ width: 200 }}>Huỷ bỏ</Button>
                     </Stack>
                 </Box>
             </Modal>

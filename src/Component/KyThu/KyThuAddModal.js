@@ -139,12 +139,12 @@ export default function KyThuAddModal({ reRenderKyThuMain }) {
                     <FormGroup style={{ paddingTop: 20 }}>
                         <FormControlLabel
                             control={<Checkbox defaultChecked onClick={handleSelection} />}
-                            label="Tạo phiếu thu tương ứng kỳ thu"
+                            label="Tạo hoá đơn tháng tương ứng kỳ thu"
                         />
                     </FormGroup>
 
                     <Stack direction="row" spacing={2} style={{ paddingTop: 20 }}>
-                        <Button variant="contained" onClick={handleSubmit}>Thêm</Button>
+                        <Button variant="contained" onClick={handleSubmit}>Xác nhận</Button>
                         <Button variant="contained" onClick={handleClose}>Huỷ bỏ</Button>
                     </Stack>
                 </Box>

@@ -35,7 +35,7 @@ for (let i = curYear - 30; i <= curYear + 10; i++) {
 
 
 export default function KyThuEditModal({ idKyThu, thang, nam, reRenderKyThuMain }) {
-    const [ , dispatch] = React.useContext(SnackBarContext)
+    const [, dispatch] = React.useContext(SnackBarContext)
 
     const [open, setOpen] = React.useState(false);
     const [Thang, setThang] = React.useState(thang);
@@ -138,7 +138,7 @@ export default function KyThuEditModal({ idKyThu, thang, nam, reRenderKyThuMain 
                     </FormControl>
 
                     <Stack direction="row" spacing={2} style={{ paddingTop: 40 }}>
-                        <Button variant="contained" onClick={handleSubmit}>Chỉnh sửa</Button>
+                        <Button variant="contained" onClick={handleSubmit}>Xác nhận</Button>
                         <Button variant="contained" onClick={handleClose}>Huỷ bỏ</Button>
                     </Stack>
                 </Box>
