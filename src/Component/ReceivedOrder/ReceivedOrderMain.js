@@ -269,13 +269,21 @@ export default function ReceivedOrderMain() {
                                 <StyledTableCell align="center">
                                     <ButtonGroup>
                                         <ReceivedOrderDetailModal orderInfo={row} reRenderMain={reRender} />
-                                        <Link to={"/home/receivedorder/edit/" + row.IDDonHang}>
-                                            <IconButton variant="text" sx={{ color: 'var(--color8)' }}>
-                                                <Tooltip title="Sửa thông tin">
-                                                    <EditIcon />
-                                                </Tooltip>
-                                            </IconButton>
-                                        </Link>
+                                        {
+                                            row.TinhTrangXuLy !== 'Đã tiếp nhận'
+                                                ? <IconButton variant="text" sx={{ color: 'var(--color8)' }} disabled>
+                                                    <Tooltip title="Sửa thông tin">
+                                                        <EditIcon />
+                                                    </Tooltip>
+                                                </IconButton>
+                                                : <Link to={"/home/receivedorder/edit/" + row.IDDonHang}>
+                                                    <IconButton variant="text" sx={{ color: 'var(--color8)' }}>
+                                                        <Tooltip title="Sửa thông tin">
+                                                            <EditIcon />
+                                                        </Tooltip>
+                                                    </IconButton>
+                                                </Link>
+                                        }
                                         {/* <Link to={"/home/receivedorder/edit/" + row.IDDonHang}>
                                             <IconButton variant="text" sx={{ color: 'var(--color8)' }}>
                                                 <Tooltip title="Sửa thông tin">

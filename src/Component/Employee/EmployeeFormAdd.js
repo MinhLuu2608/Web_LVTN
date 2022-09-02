@@ -153,13 +153,11 @@ export default function EmployeeFormAdd({ employees, handleResetPage }) {
         } else validCCCD = true
 
         const today = new Date().getFullYear();
-        //console.log(today - addEmp.ngaysinh.getFullYear());
         if (ngaysinh == null) {
             setNgaySinh('');
         }
 
         if (ngaysinh) {
-            //console.log(today - ngaysinh.getFullYear());
             if ((today - ngaysinh.getFullYear() < 18)) {
                 dispatch(setOpenSnackBar());
                 dispatch(setMessage("Tuổi nhân viên không nhỏ hơn 18"));
@@ -171,7 +169,6 @@ export default function EmployeeFormAdd({ employees, handleResetPage }) {
             .then(res => res.json())
             .then(data => setLastEmpID(data[0].IDNhanVien))
 
-        //console.log(validCCCD && validDiaChi && validEmail && validHoTen && validNgaySinh && validSDT)
         if (validCCCD && validDiaChi && validEmail && validHoTen && validNgaySinh && validSDT) {
             ngaysinh = ngaysinh.toLocaleDateString();
             //create new MaNhanVien

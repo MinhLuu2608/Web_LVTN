@@ -56,7 +56,6 @@ export default function ReceiptDetailOnline({ receipt, handleClose, isExport }) 
         }
     }
 
-    console.log("Receipt Online " + isExport)
 
     return (
         <Box sx={style}>

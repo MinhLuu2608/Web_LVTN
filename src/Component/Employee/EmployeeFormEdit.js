@@ -88,7 +88,6 @@ export default function EmployeeFormEdit({ employee, employeeList, empRolesEdit,
             gioiTinh: employee.GioiTinh,
             ngaysinh: employee.NgaySinh
         });
-        console.log("Default emp role :" + defaultEmpRoles);
         setOpen(true);
 
     }
@@ -117,7 +116,6 @@ export default function EmployeeFormEdit({ employee, employeeList, empRolesEdit,
         var EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         return EMAIL_REGEX.test(email);
     }
-    //console.log(employeeList);
     function isDuplicateCCCD(idNV, cccd) {
         var result = false;
         for (var i = 0; i < employeeList.length; i++) {
@@ -126,10 +124,6 @@ export default function EmployeeFormEdit({ employee, employeeList, empRolesEdit,
             }
             if (employeeList[i].CCCD === cccd.toString()) {
                 result = true;
-                /*
-                console.log('loop #' + i + ' id: '+ employeeList[i].IDNhanVien)
-                console.log( cccd.toString());
-                */
                 break;
             }
         }
@@ -144,10 +138,6 @@ export default function EmployeeFormEdit({ employee, employeeList, empRolesEdit,
             }
             if (employeeList[i].SoDienThoai === sdt.toString()) {
                 result = true;
-                /*
-                console.log('loop #' + i + ' id: '+ employeeList[i].IDNhanVien)
-                console.log( sdt.toString());
-                */
                 break;
             }
         }
@@ -162,10 +152,6 @@ export default function EmployeeFormEdit({ employee, employeeList, empRolesEdit,
             }
             if (employeeList[i].Email === email.toString()) {
                 result = true;
-                /*
-                console.log('loop #' + i + ' id: '+ employeeList[i].IDNhanVien)
-                console.log( email.toString());
-                */
                 break;
             }
         }

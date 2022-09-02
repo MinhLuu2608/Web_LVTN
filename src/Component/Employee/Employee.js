@@ -181,11 +181,6 @@ export default function Employee() {
 
     function filterEmpList() {
         const empList = employees.filter((val) => {
-            /*
-            console.log(val.CCCD);
-            console.log('SearchTerm')
-            console.log(val.CCCD.toString().includes(searchHandle.searchTerm))
-            */
             if (!disabledEmployee) {
                 if (getIDQuyenByIDNhanVien(val.IDNhanVien, empRoles, roles).length !== 0) {
                     if (searchHandle.searchTerm == '') {
@@ -226,7 +221,6 @@ export default function Employee() {
         });
         return empList;
     }
-    //console.log(filterEmpList());
 
     function getIDQuyenByIDNhanVien(idNV, empRoles, roles) {
         let quyenNV;
@@ -242,7 +236,6 @@ export default function Employee() {
         }
         return idQuyenNV;
     }
-    //console.log(getIDQuyenByIDNhanVien(9, empRoles, roles).length)
     function getQuyenByIDNhanVien(idNV, empRoles, roles) {
         let quyenNV;
         let tenQuyenNV = '';
@@ -265,13 +258,6 @@ export default function Employee() {
             .then(response => response.json())
             .then((data) => setValueCheckNV(data))
     }
-    //console.log(getIDQuyenByIDNhanVien(11, empRoles, roles))
-    //console.log(roles);
-    /*
-    let x = getIDQuyenByIDNhanVien(1, empRoles, roles);
-    console.log(x);
-    console.log(x.includes(2));
-    */
     return (
         <div>
             <Typography variant="p"

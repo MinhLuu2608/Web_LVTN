@@ -1,7 +1,7 @@
 import * as React from 'react'
 import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
-import Modal from '@mui/material/Modal'
+import Checkbox from '@mui/material/Checkbox';
 import Typography from '@mui/material/Typography'
 import Stack from '@mui/material/Stack'
 import IconButton from '@mui/material/IconButton'
@@ -15,7 +15,7 @@ import FormControl from '@mui/material/FormControl'
 import Select from '@mui/material/Select'
 import { GetCookie, cookie } from '../Cookie/CookieFunc'
 import { TextField } from '@mui/material';
-import { Link, useParams } from 'react-router-dom';
+import { Link, useParams, useNavigate } from 'react-router-dom';
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import Table from '@mui/material/Table'
 import TableBody from '@mui/material/TableBody'
@@ -26,6 +26,7 @@ import TableRow from '@mui/material/TableRow'
 import Paper from '@mui/material/Paper'
 import { tableCellClasses } from '@mui/material/TableCell'
 import { styled } from '@mui/material/styles'
+
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
@@ -60,7 +61,8 @@ const style = {
 };
 
 class dichVu {
-    constructor(soLuong, donGia, tongTien) {
+    constructor(idDichVu, soLuong, donGia, tongTien) {
+        this.idDichVu = idDichVu
         this.soLuong = soLuong
         this.donGia = donGia
         this.tongTien = tongTien
@@ -83,15 +85,46 @@ for (let i = curYear; i <= curYear + 1; i++) {
 
 export default function ReceivedOrderEdit() {
 
-
+    GetCookie(document.cookie)
+    const [, dispatch] = React.useContext(SnackBarContext)
     let params = useParams();
+    const navigate = useNavigate();
 
+    const [updateState, setUpdateState] = React.useState(false)
+    const [reset, setReset] = React.useState(false)
+
+    const [maDonHang, setMaDonHang] = React.useState("")
+    const [tenKH, setTenKH] = React.useState("")
+    const [diaChiKH, setDiaChiKH] = React.useState("")
+    const [sdtKH, setSDTKH] = React.useState("")
+    const [tongTienDH, setTongTienDH] = React.useState(0)
+    const [tenKHError, setTenKHError] = React.useState(false)
+    const [diaChiKHError, setDiaChiKHError] = React.useState(false)
+    const [sdtKHError, setSDTKHError] = React.useState(false)
+
+    const [dichVuList, setDichVuList] = React.useState([])
+
+    const [updateNgayHen, setUpdateNgayHen] = React.useState(false)
     const [dayList, setDayList] = React.useState([])
     const [ngay, setNgay] = React.useState(new Date().getDate())
     const [thang, setThang] = React.useState((new Date().getMonth()) + 1)
     const [nam, setNam] = React.useState(new Date().getFullYear())
     const [buoiHen, setBuoiHen] = React.useState("Sáng")
 
+
+    const handleInputTenKH = (event) => {
+        setTenKH(event.target.value)
+    }
+    const handleInputDiaChiKH = (event) => {
+        setDiaChiKH(event.target.value)
+    }
+    const handleInputSDTKH = (event) => {
+        setSDTKH(event.target.value)
+    }
+
+    const handleSelection = () => {
+        setUpdateNgayHen(!updateNgayHen)
+    }
     const handleChangeNgay = (value) => {
         setNgay(value)
     }
@@ -107,6 +140,184 @@ export default function ReceivedOrderEdit() {
     const handleChangeBuoiHen = (value) => {
         setBuoiHen(value)
     }
+
+    const reRender = () => {
+        setUpdateState(!updateState)
+    }
+    const handleReturnHome = React.useCallback(() => navigate('/home/receivedorder', { replace: true }), [navigate])
+    const handleResetState = () => {
+        setReset(!reset)
+    }
+    const handleConfirm = () => {
+        let validInforCustomer = true
+        if (tenKH === '' || diaChiKH === '' || sdtKH === '' || isNaN(+sdtKH) || sdtKH.length !== 10) validInforCustomer = false
+        if (validInforCustomer === false) {
+            dispatch(setOpenSnackBar())
+            dispatch(setMessage("Thông tin khách hàng không thể trống và SDT phải đủ 10 ký tự"))
+            dispatch(setSeverity("warning"))
+            return;
+        }
+        if (updateNgayHen) {
+            let curDate = new Date()
+            let ngayHen = new Date(nam, thang - 1, ngay)
+            if (curDate.getTime() > ngayHen.getTime()) {
+                dispatch(setOpenSnackBar())
+                dispatch(setMessage("Ngày hẹn phải lớn hơn ngày hiện tại"))
+                dispatch(setSeverity("warning"))
+                return
+            }
+        }
+        let validQuantity = true
+        dichVuList.map((dichVu) => {
+            if (dichVu.SoLuong === '' || isNaN(+dichVu.SoLuong)) validQuantity = false
+            else {
+                if (dichVu.SoLuong < 0) validQuantity = false
+            }
+        })
+        if (validQuantity === false) {
+            dispatch(setOpenSnackBar())
+            dispatch(setMessage("Số lượng của dịch vụ không hợp lệ"))
+            dispatch(setSeverity("warning"))
+            return;
+        }
+
+
+        fetch("http://localhost:5199/api/donhang/editinfo", {
+            method: 'PUT',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                IDDonHang: params.id,
+                TenKhachHang: tenKH,
+                DiaChiKH: diaChiKH,
+                SoDienThoaiKH: sdtKH,
+                TongTienDH: tongTienDH
+            })
+        })
+            .then(res => res.json())
+            .then((result) => {
+                if (result.severity !== "success") {
+                    dispatch(setOpenSnackBar())
+                    dispatch(setMessage(result.message))
+                    dispatch(setSeverity(result.severity))
+                    return
+                }
+            },
+                (error) => {
+                    dispatch(setOpenSnackBar())
+                    dispatch(setMessage("Failed"))
+                    dispatch(setSeverity("error"))
+                });
+
+        dichVuList.map((dichVu) => {
+            fetch("http://localhost:5199/api/donhang/editdichvu", {
+                method: 'PUT',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    IDDonHang: params.id,
+                    IDDichVu: dichVu.IDDichVu,
+                    DonGia: dichVu.DonGia,
+                    SoLuong: dichVu.SoLuong,
+                    TongTienDV: dichVu.TongTienDV
+                })
+            })
+                .then(res => res.json())
+                .then((result) => {
+                    if (result.severity !== "success") {
+                        dispatch(setOpenSnackBar())
+                        dispatch(setMessage(result.message))
+                        dispatch(setSeverity(result.severity))
+                        return
+                    }
+                },
+                    (error) => {
+                        dispatch(setOpenSnackBar())
+                        dispatch(setMessage("Failed"))
+                        dispatch(setSeverity("error"))
+                    });
+        })
+
+        if (updateNgayHen) {
+            let ngayHenConvert = nam + "-" + thang + "-" + ngay
+            fetch("http://localhost:5199/api/donhang/editNgayHen", {
+                method: 'PUT',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    IDDonHang: params.id,
+                    NgayHen: ngayHenConvert
+                })
+            })
+                .then(res => res.json())
+                .then((result) => {
+                    if (result.severity !== "success") {
+                        dispatch(setOpenSnackBar())
+                        dispatch(setMessage(result.message))
+                        dispatch(setSeverity(result.severity))
+                        return
+                    }
+                },
+                    (error) => {
+                        dispatch(setOpenSnackBar())
+                        dispatch(setMessage("Failed"))
+                        dispatch(setSeverity("error"))
+                    });
+        }
+
+        dispatch(setOpenSnackBar())
+        dispatch(setMessage("Chỉnh sửa thành công"))
+        dispatch(setSeverity("success"))
+        handleReturnHome()
+
+    }
+
+    React.useEffect(() => {
+        fetch("http://localhost:5199/api/donhang/" + params.id + "/" + cookie)
+            .then(response => response.json())
+            .then(function (donHang) {
+                if (donHang.length === 0) {
+                    handleReturnHome()
+                }
+                else {
+                    if (donHang[0].TinhTrangXuLy !== "Đã tiếp nhận") {
+                        handleReturnHome()
+                    }
+                    else {
+                        setMaDonHang(donHang[0].MaDonHang)
+                        setTenKH(donHang[0].TenKhachHang)
+                        setDiaChiKH(donHang[0].DiaChiKH)
+                        setSDTKH(donHang[0].SoDienThoaiKH)
+                        setTongTienDH(donHang[0].TongTienDH)
+                        setNgay(donHang[0].Ngay)
+                        setThang(donHang[0].Thang)
+                        setNam(donHang[0].Nam)
+                    }
+                }
+            },
+                (error) => {
+                    dispatch(setOpenSnackBar());
+                    dispatch(setMessage("Failed"));
+                    dispatch(setSeverity("error"));
+                })
+        fetch("http://localhost:5199/api/donhang/chitiet/" + params.id)
+            .then(response => response.json())
+            .then(function (dichVuList) {
+                setDichVuList(dichVuList)
+            },
+                (error) => {
+                    dispatch(setOpenSnackBar());
+                    dispatch(setMessage("Failed"));
+                    dispatch(setSeverity("error"));
+                })
+
+    }, [dispatch, params.id, reset])
 
     React.useEffect(() => {
         let d = new Date(nam, thang, 0)
@@ -131,8 +342,8 @@ export default function ReceivedOrderEdit() {
                 <Typography variant="p" sx={{ fontSize: 30, color: "var(--color2)", fontWeight: "bold", paddingBottom: 5 }}>
                     Chỉnh sửa thông tin đơn hàng
                 </Typography>
-                <Typography variant="p" sx={{ fontSize: 30, fontWeight: "bold", paddingBottom: 5 }}>
-                    Mã đơn hàng: {params.id}
+                <Typography variant="p" sx={{ fontSize: 30, fontWeight: "bold", paddingBottom: 2 }}>
+                    Mã đơn hàng: {maDonHang}
                 </Typography>
             </Stack>
 
@@ -145,36 +356,40 @@ export default function ReceivedOrderEdit() {
                 <Stack direction="row" justifyContent="flex-start" alignItems="flex-start" spacing={2} >
                     <TextField
                         required
+                        value={tenKH}
                         style={{ width: 400, margin: 3 }}
                         label="Tên khách hàng"
                         variant="outlined"
-                    // onChange={handleInputTenDichVu}
+                        onChange={handleInputTenKH}
                     // error={tenDichVuError}
                     />
                     <TextField
                         required
-                        style={{ width: 200, margin: 3 }}
+                        value={sdtKH}
+                        style={{ width: 200, margin: 5 }}
                         label="Số điện thoại"
                         variant="outlined"
-                    // onChange={handleInputTenDichVu}
+                        onChange={handleInputSDTKH}
                     // error={tenDichVuError}
                     />
                 </Stack>
                 <TextField
                     required
-                    style={{ width: 610, margin: 3 }}
+                    value={diaChiKH}
+                    style={{ width: 610, marginTop: 5 }}
                     label="Địa chỉ khách hàng"
                     variant="outlined"
-                // onChange={handleInputTenDichVu}
+                    onChange={handleInputDiaChiKH}
                 // error={tenDichVuError}
                 />
-                <Typography variant="h6" style={{ paddingTop: 3 }}>
-                    Ngày hẹn:
+                <Typography variant="h6">
+                    <Checkbox onClick={handleSelection} />Ngày hẹn:
                 </Typography>
                 <Stack direction="row" spacing={2} alignItems="center">
                     <FormControl style={{ width: 100, }}>
                         <InputLabel id="demo-simple-select-label">Ngày</InputLabel>
                         <Select
+                            disabled={!updateNgayHen}
                             labelId="demo-simple-select-label"
                             value={ngay}
                             label="Ngày"
@@ -190,6 +405,7 @@ export default function ReceivedOrderEdit() {
                     <FormControl style={{ width: 100, }}>
                         <InputLabel id="demo-simple-select-label">Tháng</InputLabel>
                         <Select
+                            disabled={!updateNgayHen}
                             labelId="demo-simple-select-label"
                             value={thang}
                             label="Tháng"
@@ -212,6 +428,7 @@ export default function ReceivedOrderEdit() {
                     <FormControl style={{ width: 100 }}>
                         <InputLabel id="demo-simple-select-label">Năm</InputLabel>
                         <Select
+                            disabled={!updateNgayHen}
                             labelId="demo-simple-select-label"
                             value={nam}
                             label="Năm"
@@ -227,6 +444,7 @@ export default function ReceivedOrderEdit() {
                     <FormControl style={{ width: 150 }}>
                         <InputLabel>Buổi hẹn</InputLabel>
                         <Select
+                            disabled={!updateNgayHen}
                             labelId="demo-simple-select-label"
                             value={buoiHen}
                             label="Buổi hẹn"
@@ -254,108 +472,57 @@ export default function ReceivedOrderEdit() {
                             </StyledTableRow>
                         </TableHead>
                         <TableBody>
-                            <StyledTableRow
-                                key={1}
-                                sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-                            >
-                                <StyledTableCell component="th" scope="row">
-                                    Mã dịch vụ
-                                </StyledTableCell>
-                                <StyledTableCell component="th" scope="row">
-                                    Tên dịch vụ
-                                </StyledTableCell>
-                                <StyledTableCell>
-                                    Loại dịch vụ
-                                </StyledTableCell>
-                                <StyledTableCell align="center">
-                                    Đơn vị tính
-                                </StyledTableCell>
-                                <StyledTableCell align="center">
-                                    Số lượng
-                                </StyledTableCell>
-                                <StyledTableCell align="center">
-                                    Đơn giá
-                                </StyledTableCell>
-                                <StyledTableCell align="center">
-                                    Tổng
-                                </StyledTableCell>
-                            </StyledTableRow>
-                        </TableBody>
-                        {/* <TableBody>
-                            {(rowsPerPage > 0
-                                ? rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                                : rows
-                            ).map((row) => (
+                            {dichVuList.map((dichVu) => (
                                 <StyledTableRow
-                                    key={row.IDDonHang}
+                                    key={dichVu.IDDichVu}
                                     sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                                 >
                                     <StyledTableCell component="th" scope="row">
-                                        {row.MaDonHang}
+                                        {dichVu.MaDichVu}
                                     </StyledTableCell>
-                                    <StyledTableCell>{row.TenKhachHang}</StyledTableCell>
-                                    <StyledTableCell align="center">{row.NgayTaoConvert}</StyledTableCell>
-                                    <StyledTableCell align="center">{row.DiaChiKH}</StyledTableCell>
-                                    <StyledTableCell align="center">{row.NgayHenConvert}</StyledTableCell>
-                                    {
-                                        showTinhTrangXuLy(row.TinhTrangXuLy, row.Note)
-                                    }
-                                    <StyledTableCell align="center">
-                                        <ButtonGroup>
-                                            <ReceivedOrderDetailModal orderInfo={row} reRenderMain={reRender} />
-                                            <Link to={"/home/receivedorder/edit/" + row.IDDonHang}>
-                                                <IconButton variant="text" sx={{ color: 'var(--color8)' }}>
-                                                    <Tooltip title="Sửa thông tin">
-                                                        <EditIcon />
-                                                    </Tooltip>
-                                                </IconButton>
-                                            </Link>
-                                            
-                                            {
-                                                row.TinhTrangXuLy !== 'Đã bị huỷ'
-                                                    ? <ReceivedOrderDeleteModal
-                                                        idDonHang={row.IDDonHang}
-                                                        idNhanVien={idNhanVien}
-                                                        reRenderMain={reRender}
-                                                    />
-                                                    : <IconButton onClick={() => handleRecovery(row.IDDonHang)}>
-                                                        <Tooltip sx={{ color: 'var(--color2)' }} title="Phục hồi">
-                                                            <RestartAltIcon />
-                                                        </Tooltip>
-                                                    </IconButton>
+                                    <StyledTableCell>{dichVu.TenDichVu}</StyledTableCell>
+                                    <StyledTableCell align="center">{dichVu.LoaiDichVu}</StyledTableCell>
+                                    <StyledTableCell align="center">{dichVu.DonViTinh}</StyledTableCell>
+                                    <StyledTableCell align="center"><TextField
+                                        required
+                                        value={dichVu.SoLuong}
+                                        style={{ width: 100, maxHeight: 50 }}
+                                        variant="outlined"
+                                        onChange={(event) => {
+                                            if (isNaN(+event.target.value) || event.target.value < 0) {
+                                                event.target.value = 0
                                             }
-                                        </ButtonGroup>
-                                    </StyledTableCell>
+                                            else {
+                                                let curIDDichVu = dichVu.IDDichVu
+                                                let index = dichVuList.findIndex((element) => element.IDDichVu === curIDDichVu)
+                                                let curTongTienDV = dichVuList[index].TongTienDV
+                                                let array = dichVuList
+                                                array[index].SoLuong = event.target.value
+                                                array[index].TongTienDV = array[index].SoLuong * array[index].DonGia
+                                                let thayDoiTongTien = array[index].TongTienDV - curTongTienDV
+                                                setTongTienDH(tongTienDH + thayDoiTongTien)
+                                                setDichVuList(array)
+                                                reRender()
+                                            }
+                                        }}
+                                    // error={tenDichVuError}
+                                    /></StyledTableCell>
+                                    <StyledTableCell align="center">{dichVu.DonGia}</StyledTableCell>
+                                    <StyledTableCell align="center">{dichVu.TongTienDV}</StyledTableCell>
                                 </StyledTableRow>
                             ))}
-                            {emptyRows > 0 && (
-                                <TableRow style={{ height: 53 * emptyRows }}>
-                                    <TableCell colSpan={6} />
-                                </TableRow>
-                            )}
                         </TableBody>
-                        <TableFooter>
-                            <TableRow>
-                                <TablePagination
-                                    rowsPerPageOptions={[10, 25, 50, { label: 'All', value: -1 }]}
-                                    colSpan={4}
-                                    count={rows.length}
-                                    rowsPerPage={rowsPerPage}
-                                    page={page}
-                                    SelectProps={{
-                                        inputProps: {
-                                            'aria-label': 'rows per page',
-                                        },
-                                        native: true,
-                                    }}
-                                    onPageChange={handleChangePage}
-                                    onRowsPerPageChange={handleChangeRowsPerPage}
-                                    ActionsComponent={TablePaginationActions}
-                                />
-                            </TableRow>
-                        </TableFooter> */}
                     </Table>
                 </TableContainer>
+            </Stack>
+            <Stack direction="row" justifyContent="flex-end" alignItems="flex-end" spacing={2} sx={{ margin: 5 }}>
+                <Typography variant="h5" style={{ paddingTop: 3 }}>
+                    Tổng tiền đơn hàng: {tongTienDH} đ
+                </Typography>
+            </Stack>
+            <Stack direction="row" justifyContent="center" alignItems="center" spacing={2} sx={{ margin: 5 }}>
+                <Button variant="contained" sx={{ width: 450 }} onClick={handleConfirm}>Chỉnh sửa</Button>
+                <Button variant="contained" sx={{ width: 250 }} onClick={handleResetState}>Reset thông tin</Button>
             </Stack>
         </Box>
     </>

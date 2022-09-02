@@ -58,7 +58,6 @@ function Client() {
         setOpen1(false);
     };
 
-    console.log(StateLogin);
 
     if (cookie.length === 0) {
         if (StateLogin === "Connect") {
