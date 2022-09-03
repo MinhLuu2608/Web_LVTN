@@ -41,7 +41,7 @@ const AddForm__style = {
 
 
 
-export default function WardFormAdd({ handleResetPage, districts}) {
+export default function WardFormAdd({ handleResetPage, districts }) {
 
     const client = axios.create({
         baseURL: "http://localhost:5199/api/XaPhuong"
@@ -139,7 +139,7 @@ export default function WardFormAdd({ handleResetPage, districts}) {
                     </Stack>
 
                     <Box sx={AddForm__style}>
-                        <Box sx={Info__style}>                            
+                        <Box sx={Info__style}>
                             <Select
                                 labelId="demo-simple-select-standard-label"
                                 id="select-district"
@@ -167,8 +167,9 @@ export default function WardFormAdd({ handleResetPage, districts}) {
                             </TextField>
                         </Box>
                     </Box>
-                    <Stack direction="column" spacing={2} alignItems="flex-end">
-                        <Button variant="contained" onClick={handleSubmit}>Thêm Xã Phường</Button>
+                    <Stack sx={{ padding: 2 }} direction="row" spacing={2} justifyContent="flex-end">
+                        <Button variant="contained" onClick={handleSubmit} sx={{ width: 200 }}>Xác nhận</Button>
+                        <Button variant="contained" onClick={handleClose} sx={{ width: 200 }}>Huỷ bỏ</Button>
                     </Stack>
                 </Box>
             </Modal>

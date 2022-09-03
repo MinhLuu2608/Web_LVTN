@@ -106,7 +106,7 @@ export default function DistrictFormAdd({ handleResetPage }) {
     };
     return (
         <div>
-            <Button variant="contained" onClick={handleOpen} sx={{ backgroundColor: 'var(--color7)'}}>Thêm Quận Huyện</Button>
+            <Button variant="contained" onClick={handleOpen} sx={{ backgroundColor: 'var(--color7)' }}>Thêm Quận Huyện</Button>
             <Modal
                 open={open}
                 onClose={handleClose}
@@ -134,8 +134,9 @@ export default function DistrictFormAdd({ handleResetPage }) {
                             </TextField>
                         </Box>
                     </Box>
-                    <Stack direction="column" spacing={2} alignItems="flex-end">
-                        <Button variant="contained" onClick={handleSubmit}>Thêm Quận Huyện</Button>
+                    <Stack sx={{ padding: 2 }} direction="row" spacing={2} justifyContent="flex-end">
+                        <Button variant="contained" onClick={handleSubmit} sx={{ width: 200 }}>Xác nhận</Button>
+                        <Button variant="contained" onClick={handleClose} sx={{ width: 200 }}>Huỷ bỏ</Button>
                     </Stack>
                 </Box>
             </Modal>

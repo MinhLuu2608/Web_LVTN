@@ -92,7 +92,7 @@ export default function WardFormDelete({ ward, handleResetPage }) {
                     </Typography>
                     <Stack direction="row" spacing={2} alignItems="center" justifyContent="space-evenly" >
                         <Button variant="contained" onClick={handleSubmit}>Xác Nhận</Button>
-                        <Button variant="contained" onClick={handleClose}>Huỷ</Button>
+                        <Button variant="contained" onClick={handleClose}>Huỷ bỏ</Button>
                     </Stack>
                 </Box>
             </Modal>

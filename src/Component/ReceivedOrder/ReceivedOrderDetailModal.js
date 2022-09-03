@@ -196,7 +196,7 @@ export default function ReceivedOrderDetailModal({ orderInfo, reRenderMain }) {
                             orderInfo.TinhTrangXuLy !== 'Đã hoàn thành' && orderInfo.TinhTrangXuLy !== 'Đã bị huỷ'
                                 ? <>
                                     <Button variant="contained" onClick={handleConfirm}>Xác nhận hoàn thành và thanh toán</Button>
-                                    <Button variant="contained" onClick={handleClose}>Huỷ</Button>
+                                    <Button variant="contained" onClick={handleClose}>Huỷ bỏ</Button>
                                 </>
                                 : <></>
                         }

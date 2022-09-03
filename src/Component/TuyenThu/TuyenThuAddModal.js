@@ -162,7 +162,7 @@ export default function TuyenThuAddModal({ reRenderKyThuMain }) {
                         </Select>
                     </FormControl>
                     <Stack direction="row" spacing={2} style={{ paddingTop: 20 }}>
-                        <Button variant="contained" onClick={handleSubmit}>Thêm</Button>
+                        <Button variant="contained" onClick={handleSubmit}>Xác nhận</Button>
                         <Button variant="contained" onClick={handleClose}>Huỷ bỏ</Button>
                     </Stack>
                 </Box>

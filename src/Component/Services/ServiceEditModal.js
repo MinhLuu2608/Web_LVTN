@@ -105,7 +105,7 @@ export default function ServiceEditModal({ idDichVu, donGia, reRenderServiceMain
                     />
 
                     <Stack direction="row" spacing={2} style={{ paddingTop: 40 }}>
-                        <Button variant="contained" onClick={handleSubmit}>Chỉnh sửa</Button>
+                        <Button variant="contained" onClick={handleSubmit}>Xác nhận</Button>
                         <Button variant="contained" onClick={handleClose}>Huỷ bỏ</Button>
                     </Stack>
                 </Box>

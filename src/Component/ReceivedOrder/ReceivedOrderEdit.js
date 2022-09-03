@@ -521,7 +521,7 @@ export default function ReceivedOrderEdit() {
                 </Typography>
             </Stack>
             <Stack direction="row" justifyContent="center" alignItems="center" spacing={2} sx={{ margin: 5 }}>
-                <Button variant="contained" sx={{ width: 450 }} onClick={handleConfirm}>Chỉnh sửa</Button>
+                <Button variant="contained" sx={{ width: 450 }} onClick={handleConfirm}>Xác nhận</Button>
                 <Button variant="contained" sx={{ width: 250 }} onClick={handleResetState}>Reset thông tin</Button>
             </Stack>
         </Box>

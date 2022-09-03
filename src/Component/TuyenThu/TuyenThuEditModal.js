@@ -27,7 +27,7 @@ const style = {
 
 export default function TuyenThuEditModal({ idTuyenThu, tenTuyenThu, idNhanVien, tenNhanVien, idQuanHuyen, nhanVienList, reRenderTuyenThuMain }) {
     const [, dispatch] = React.useContext(SnackBarContext)
-    
+
     const [open, setOpen] = React.useState(false);
     const [nhanVien, setNhanVien] = React.useState(-1);
     const handleOpen = () => {
@@ -110,7 +110,7 @@ export default function TuyenThuEditModal({ idTuyenThu, tenTuyenThu, idNhanVien,
                         changeNhanVien={setNhanVien}
                     />
                     <Stack direction="row" spacing={2} style={{ paddingTop: 40 }}>
-                        <Button variant="contained" onClick={handleSubmit}>Chỉnh sửa</Button>
+                        <Button variant="contained" onClick={handleSubmit}>Xác nhận</Button>
                         <Button variant="contained" onClick={handleClose}>Huỷ bỏ</Button>
                     </Stack>
                 </Box>

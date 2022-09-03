@@ -54,7 +54,7 @@ const QuyenChung = [
                 path: '/home/collectcustomer'
             },
             {
-                title: 'Danh sách phiếu thu',
+                title: 'Danh sách hoá đơn',
                 path: '/home/empreceipt'
             },
         ]
