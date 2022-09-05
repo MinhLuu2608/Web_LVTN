@@ -72,7 +72,7 @@ export default function ExportReceiptList({ hoadon }) {
             hoadon
                 .map(function (phieu) {
                     var chosenExportCustomer = {
-                        "Mã hoá đơn": phieu.MaSoPhieu,
+                        "Mã hoá đơn": phieu.MaSoHoaDon,
                         "Mã khách hàng": phieu.MaKhachHang,
                         "Tên Khách Hàng": phieu.HoTenKH,
                         "Kỳ Thu": phieu.TenKyThu,

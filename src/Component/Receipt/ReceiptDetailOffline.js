@@ -94,7 +94,7 @@ export default function ReceiptDetailOffline({ receipt, handleClose }) {
                                 </TableHead>
                                 <TableBody>
                                     <TableRow>
-                                        <TableCell align="left" sx={{ fontSize: 14, borderRight: 'solid black 1px' }}>{receipt.MaSoPhieu}</TableCell>
+                                        <TableCell align="left" sx={{ fontSize: 14, borderRight: 'solid black 1px' }}>{receipt.MaSoHoaDon}</TableCell>
                                         <TableCell align="left" sx={{ fontSize: 14, borderRight: 'solid black 1px' }}>{receipt.TenKyThu}</TableCell>
                                         <TableCell align="left" sx={{ fontSize: 14, borderRight: 'solid black 1px' }}>{receipt.TenLoai}</TableCell>
                                         <TableCell align="left" sx={{ fontSize: 14, borderRight: 'solid black 1px' }}>{receipt.TenTuyenThu}</TableCell>

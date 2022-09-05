@@ -344,7 +344,7 @@ export default function ReceiptMain() {
                                 sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                             >
                                 <StyledTableCell component="th" scope="row">
-                                    {row.MaSoPhieu}
+                                    {row.MaSoHoaDon}
                                 </StyledTableCell>
                                 <StyledTableCell align="center">{row.MaKhachHang}</StyledTableCell>
                                 <StyledTableCell align="center">{row.HoTenKH}</StyledTableCell>
