@@ -28,14 +28,15 @@ const style = {
 export default function ServiceAddModal({ reRenderServiceMain }) {
     const [, dispatch] = React.useContext(SnackBarContext)
 
-    const [open, setOpen] = React.useState(false);
-    const [loaiDichVu, setLoaiDichVu] = React.useState('Trong nhà');
-    const [tenDichVu, setTenDichVu] = React.useState('');
-    const [donViTinh, setDonViTinh] = React.useState('');
-    const [donGiaDV, setDonGiaDV] = React.useState(0);
-    const [tenDichVuError, setTenDichVuError] = React.useState(false);
-    const [donGiaError, setDonGiaError] = React.useState(false);
-    const [donViTinhError, setDonViTinhError] = React.useState(false);
+    const [open, setOpen] = React.useState(false)
+    const [loaiDichVu, setLoaiDichVu] = React.useState('Trong nhà')
+    const [tenDichVu, setTenDichVu] = React.useState('')
+    const [donViTinh, setDonViTinh] = React.useState('')
+    const [donGiaDV, setDonGiaDV] = React.useState(0)
+    const [moTaDV, setMoTaDV] = React.useState('')
+    const [tenDichVuError, setTenDichVuError] = React.useState(false)
+    const [donGiaError, setDonGiaError] = React.useState(false)
+    const [donViTinhError, setDonViTinhError] = React.useState(false)
 
     const handleOpen = () => {
         setTenDichVuError(false)
@@ -56,6 +57,9 @@ export default function ServiceAddModal({ reRenderServiceMain }) {
     }
     const handleInputDonViTinh = (event) => {
         setDonViTinh(event.target.value)
+    }
+    const handleInputMoTa = (event) => {
+        setMoTaDV(event.target.value)
     }
 
     const handleSubmit = () => {
@@ -79,6 +83,13 @@ export default function ServiceAddModal({ reRenderServiceMain }) {
         } else validDonViTinh = true
 
         if (validTenDichVu && validDonGia && validDonViTinh) {
+            console.log(JSON.stringify({
+                LoaiDichVu: loaiDichVu,
+                TenDichVu: tenDichVu,
+                DonViTinh: donViTinh,
+                DonGiaDV: donGiaDV,
+                MoTaDV: moTaDV
+            }))
             fetch("http://localhost:5199/api/dichvu/", {
                 method: 'POST',
                 headers: {
@@ -90,6 +101,7 @@ export default function ServiceAddModal({ reRenderServiceMain }) {
                     TenDichVu: tenDichVu,
                     DonViTinh: donViTinh,
                     DonGiaDV: donGiaDV,
+                    MoTaDV: moTaDV
                 })
             })
                 .then(res => res.json())
@@ -161,6 +173,16 @@ export default function ServiceAddModal({ reRenderServiceMain }) {
                             variant="outlined"
                             onChange={handleInputDonViTinh}
                             error={donViTinhError}
+                        />
+                    </Stack>
+                    <Stack direction="row" spacing={2} style={{ paddingTop: 20 }}>
+                        <TextField
+                            id="outlined-multiline-static"
+                            label="Mô tả dịch vụ"
+                            style={{ width: 520 }}
+                            multiline
+                            onChange={handleInputMoTa}
+                            rows={4}
                         />
                     </Stack>
                     <Stack direction="row" spacing={2} style={{ paddingTop: 30 }}>

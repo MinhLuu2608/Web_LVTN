@@ -23,15 +23,17 @@ const style = {
     p: 4,
 };
 
-export default function ServiceEditModal({ idDichVu, donGia, reRenderServiceMain }) {
+export default function ServiceEditModal({ idDichVu, donGia, moTa, reRenderServiceMain }) {
     const [, dispatch] = React.useContext(SnackBarContext)
 
     const [open, setOpen] = React.useState(false);
     const [donGiaDV, setDonGiaDV] = React.useState(donGia);
+    const [moTaDV, setMoTaDV] = React.useState('')
     const [donGiaError, setDonGiaError] = React.useState(false);
 
     const handleOpen = () => {
         setDonGiaDV(donGia)
+        setMoTaDV(moTa)
         setOpen(true)
     }
 
@@ -39,6 +41,9 @@ export default function ServiceEditModal({ idDichVu, donGia, reRenderServiceMain
 
     const handleInputDonGia = (event) => {
         setDonGiaDV(event.target.value)
+    }
+    const handleInputMoTa = (event) => {
+        setMoTaDV(event.target.value)
     }
 
     const handleSubmit = () => {
@@ -58,7 +63,8 @@ export default function ServiceEditModal({ idDichVu, donGia, reRenderServiceMain
                 },
                 body: JSON.stringify({
                     IDDichVu: idDichVu,
-                    DonGiaDV: donGiaDV
+                    DonGiaDV: donGiaDV,
+                    MoTaDV: moTaDV
                 })
             })
                 .then(res => res.json())
@@ -97,13 +103,21 @@ export default function ServiceEditModal({ idDichVu, donGia, reRenderServiceMain
                     <TextField
                         required
                         value={donGiaDV}
-                        style={{ width: 300 }}
+                        style={{ width: 300, paddingBottom: 30 }}
                         label="Đơn giá"
                         variant="outlined"
                         onChange={handleInputDonGia}
                         error={donGiaError}
                     />
-
+                    <TextField
+                        id="outlined-multiline-static"
+                        label="Mô tả dịch vụ"
+                        value={moTaDV}
+                        style={{ width: 520 }}
+                        multiline
+                        onChange={handleInputMoTa}
+                        rows={4}
+                    />
                     <Stack direction="row" spacing={2} style={{ paddingTop: 40 }}>
                         <Button variant="contained" onClick={handleSubmit}>Xác nhận</Button>
                         <Button variant="contained" onClick={handleClose}>Huỷ bỏ</Button>

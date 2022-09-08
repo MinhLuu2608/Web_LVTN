@@ -215,8 +215,10 @@ export default function ServiceMain() {
                 <Table sx={{ minWidth: 650 }} aria-label="simple table">
                     <TableHead>
                         <StyledTableRow>
+                            <StyledTableCell>Mã dịch vụ</StyledTableCell>
                             <StyledTableCell>Loại dịch vụ</StyledTableCell>
                             <StyledTableCell>Tên Dịch vụ</StyledTableCell>
+                            <StyledTableCell width={300}>Mô tả</StyledTableCell>
                             <StyledTableCell align="center">Đơn vị tính</StyledTableCell>
                             <StyledTableCell align="center">Đơn giá</StyledTableCell>
                             <StyledTableCell align="center">Tình trạng</StyledTableCell>
@@ -232,10 +234,10 @@ export default function ServiceMain() {
                                 key={row.IDDichVu}
                                 sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                             >
-                                <StyledTableCell component="th" scope="row">
-                                    {row.LoaiDichVu}
-                                </StyledTableCell>
+                                <StyledTableCell>{row.MaDichVu}</StyledTableCell>
+                                <StyledTableCell component="th" scope="row">{row.LoaiDichVu}</StyledTableCell>
                                 <StyledTableCell>{row.TenDichVu}</StyledTableCell>
+                                <StyledTableCell>{row.MoTaDV}</StyledTableCell>
                                 <StyledTableCell align="center">{row.DonViTinh}</StyledTableCell>
                                 <StyledTableCell align="center">{row.DonGiaDV}</StyledTableCell>
                                 {
@@ -250,6 +252,7 @@ export default function ServiceMain() {
                                         <ServiceEditModal
                                             idDichVu={row.IDDichVu}
                                             donGia={row.DonGiaDV}
+                                            moTa={row.MoTaDV}
                                             reRenderServiceMain={reRender}
                                         />
                                         {
