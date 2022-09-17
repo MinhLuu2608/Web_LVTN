@@ -16,6 +16,7 @@ import OrderMain from './Component/ServiceOrder/OrderMain';
 import ProcessOrderMain from './Component/NeedProcessOrder/OrderMain';
 import ReceivedOrderMain from './Component/ReceivedOrder/ReceivedOrderMain';
 import ReceivedOrderEdit from './Component/ReceivedOrder/ReceivedOrderEdit';
+import HomeChangePass from './Component/Home/HomeChangePass';
 
 function App() {
 
@@ -28,6 +29,7 @@ function App() {
           <Route path='/home' element={<Home />}>
             <Route path='customer' element={<Customer />} />
             <Route path='privatestaff' element={<HomePrivateStaff />} />
+            <Route path='changepass' element={<HomeChangePass />} />
             <Route path='customer' element={<Customer collectCustomer={false} />} />
             <Route path='districtandward' element={<DistrictAndWard />} />
             <Route path='empreceipt' element={<EmployeeReceipt />} />
