@@ -69,7 +69,7 @@ export default function DistrictFormDelete({ district, handleResetPage }) {
 
     return (
         <div>
-            <Stack direction="column" spacing={2} alignItems="flex-end" onClick={handleOpen} marginBottom={1}>
+            <Stack direction="column" spacing={2} alignItems="flex-start" onClick={handleOpen} marginBottom={1}>
                 <IconButton variant="text" color="error">
                     <Tooltip title="Xoá">
                         <DeleteIcon

@@ -68,7 +68,7 @@ export default function WardFormDelete({ ward, handleResetPage }) {
 
     return (
         <div>
-            <Stack direction="column" spacing={2} alignItems="flex-end" onClick={handleOpen} marginBottom={1}>
+            <Stack direction="column" spacing={2} alignItems="flex-start" onClick={handleOpen} marginBottom={1}>
                 <IconButton variant="text" color="error">
                     <Tooltip title="Xoá">
                         <DeleteIcon
@@ -85,7 +85,7 @@ export default function WardFormDelete({ ward, handleResetPage }) {
             >
                 <Box sx={style}>
                     <Typography id="post-request-error-handling" variant="h5" style={{ paddingBottom: 20 }}>
-                        Xác Nhận Xoá Xã Phương
+                        Xác Nhận Xoá Xã Phường
                     </Typography>
                     <Typography id="post-request-error-handling" variant="h4" style={{ paddingBottom: 40 }}>
                         {ward.TenXaPhuong}

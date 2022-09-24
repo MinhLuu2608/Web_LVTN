@@ -13,7 +13,7 @@ import Typography from '@mui/material/Typography';
 import { styled } from '@mui/material/styles';
 import { tableCellClasses } from '@mui/material/TableCell';
 import Stack from '@mui/material/Stack';
-import {Box} from '@mui/material';
+import { Box } from '@mui/material';
 import ToggleButton from '@mui/material/ToggleButton';
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
 import DistrictFormAdd from './DistrictFormAdd';
@@ -180,7 +180,7 @@ function DistrictAndWard() {
     React.useEffect(() => {
         handleChosenWards(wards)
         handleChosenDistricts(districts)
-    },[searchInput,chosenDistrict])
+    }, [searchInput, chosenDistrict])
 
     const handleChangeChosenField = (event, newField) => {
         if (newField !== null) {
@@ -274,8 +274,7 @@ function DistrictAndWard() {
                                 key={row.IDXaPhuong}
                                 sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                             >
-                                <StyledTableCell component="th" scope="row">{row.IDXaPhuong}
-                                </StyledTableCell>
+                                <StyledTableCell component="th" scope="row">{row.IDXaPhuong}</StyledTableCell>
                                 <StyledTableCell>{row.TenXaPhuong}</StyledTableCell>
                                 <StyledTableCell>{row.TenQuanHuyen}</StyledTableCell>
                                 <StyledTableCell>
@@ -301,8 +300,7 @@ function DistrictAndWard() {
                                 key={row.IDQuanHuyen}
                                 sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                             >
-                                <StyledTableCell component="th" scope="row">{row.IDQuanHuyen}
-                                </StyledTableCell>
+                                <StyledTableCell component="th" scope="row">{row.IDQuanHuyen}</StyledTableCell>
                                 <StyledTableCell>{row.TenQuanHuyen}</StyledTableCell>
                                 <StyledTableCell>
                                     <DistrictFormDelete district={row} handleResetPage={handleResetPage} />
@@ -327,8 +325,8 @@ function DistrictAndWard() {
                     <TableHead color="black">
                         <TableRow>
                             <StyledTableCell style={{ width: '30%' }}>Mã Quận Huyện</StyledTableCell>
-                            <StyledTableCell style={{ width: '60%' }}>Tên Quận Huyện</StyledTableCell>
-                            <StyledTableCell style={{ width: '10%' }}>Thao Tác</StyledTableCell>
+                            <StyledTableCell style={{ width: '50%' }}>Tên Quận Huyện</StyledTableCell>
+                            <StyledTableCell style={{ width: '20%' }}>Thao Tác</StyledTableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
@@ -350,9 +348,9 @@ function DistrictAndWard() {
                 <Table>
                     <TableHead color="black">
                         <TableRow>
-                            <StyledTableCell style={{ width: '10%' }}>Mã Quận Huyện</StyledTableCell>
+                            <StyledTableCell style={{ width: '20%' }}>Mã Quận Huyện</StyledTableCell>
                             <StyledTableCell style={{ width: '30%' }}>Tên Xã Phường</StyledTableCell>
-                            <StyledTableCell style={{ width: '50%' }}>Tên Quận Huyện</StyledTableCell>
+                            <StyledTableCell style={{ width: '40%' }}>Tên Quận Huyện</StyledTableCell>
                             <StyledTableCell style={{ width: '10%' }}>Thao Tác</StyledTableCell>
                         </TableRow>
                     </TableHead>
@@ -368,7 +366,7 @@ function DistrictAndWard() {
             </TableContainer>
         )
     }
-    
+
     const showSearchWards = function () {
         return (
             <Box sx={style}>
@@ -443,15 +441,7 @@ function DistrictAndWard() {
 
     return (
         <div>
-            <Typography variant="p"
-                sx={
-                    {
-                        fontSize: 30,
-                        color: "var(--color2)",
-                        fontWeight: "bold",
-                    }
-                }
-            >
+            <Typography variant="p" sx={{ fontSize: 30, color: "var(--color2)", fontWeight: "bold" }}>
                 Quản Lý Tỉnh Thành
             </Typography>
             <Stack direction="row" spacing={2} justifyContent='center' marginBottom={1}>
