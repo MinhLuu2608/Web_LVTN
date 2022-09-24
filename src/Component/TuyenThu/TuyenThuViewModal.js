@@ -38,7 +38,7 @@ export default function TuyenThuViewModal({ idTuyenThu, tenTuyenThu, idNhanVien 
                     setAllEmp(empList);
                 })
         }
-        else{
+        else {
             setAllEmp("Tuyến thu này chưa có nhân viên tiếp nhận")
         }
     }, [idTuyenThu, idNhanVien])

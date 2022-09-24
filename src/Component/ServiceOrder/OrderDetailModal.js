@@ -85,7 +85,7 @@ export default function OrderDetailModal({ orderInfo }) {
                                 <img src="/static/media/Logo.d35d7c77ea0ad085e30c.jpg" alt="Logo" style={{ width: 70, textAlign: "left", marginLeft: 70 }}></img>
                             </Typography> */}
                         <Typography variant="h5" style={{ paddingBottom: 10, textAlign: "center" }}>
-                            <b>Hoá đơn dịch vụ </b>
+                            <b>Đơn hàng dịch vụ </b>
                         </Typography>
                         <Box sx={Info__style}>
                             <Typography variant="h6" style={{ fontSize: 13, width: 850, paddingRight: 40 }}>
