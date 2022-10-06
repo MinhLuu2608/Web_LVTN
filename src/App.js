@@ -17,6 +17,7 @@ import ProcessOrderMain from './Component/NeedProcessOrder/OrderMain';
 import ReceivedOrderMain from './Component/ReceivedOrder/ReceivedOrderMain';
 import ReceivedOrderEdit from './Component/ReceivedOrder/ReceivedOrderEdit';
 import HomeChangePass from './Component/Home/HomeChangePass';
+import ThongKeMain from './Component/ThongKe/ThongKeMain';
 
 function App() {
 
@@ -43,6 +44,7 @@ function App() {
             <Route path='processorder' element={<ProcessOrderMain />} />
             <Route path='receivedorder' element={<ReceivedOrderMain />} />
             <Route path='receivedorder/edit/:id' element={<ReceivedOrderEdit />} />
+            <Route path='thongke' element={<ThongKeMain />} />
           </Route>
           <Route path='*' element={<Client />} />
 

@@ -40,6 +40,10 @@ const QuyenChung = [
                 title: 'Quản lý đơn hàng dịch vụ',
                 path: '/home/order'
             },
+            {
+                title: 'Thống kê',
+                path: '/home/thongke'
+            },
         ]
     },
     {
