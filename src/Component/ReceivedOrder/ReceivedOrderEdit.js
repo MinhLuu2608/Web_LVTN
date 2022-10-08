@@ -8,7 +8,6 @@ import IconButton from '@mui/material/IconButton'
 import Tooltip from '@mui/material/Tooltip'
 import SnackBarContext from '../SnackBar/SnackBarContext'
 import { setMessage, setOpenSnackBar, setSeverity } from '../SnackBar/SnackBarAction'
-import EditIcon from '@mui/icons-material/Edit'
 import InputLabel from '@mui/material/InputLabel'
 import MenuItem from '@mui/material/MenuItem'
 import FormControl from '@mui/material/FormControl'
@@ -483,30 +482,31 @@ export default function ReceivedOrderEdit() {
                                     <StyledTableCell>{dichVu.TenDichVu}</StyledTableCell>
                                     <StyledTableCell align="center">{dichVu.LoaiDichVu}</StyledTableCell>
                                     <StyledTableCell align="center">{dichVu.DonViTinh}</StyledTableCell>
-                                    <StyledTableCell align="center"><TextField
-                                        required
-                                        value={dichVu.SoLuong}
-                                        style={{ width: 100, maxHeight: 50 }}
-                                        variant="outlined"
-                                        onChange={(event) => {
-                                            if (isNaN(+event.target.value) || event.target.value < 0) {
-                                                event.target.value = 0
-                                            }
-                                            else {
-                                                let curIDDichVu = dichVu.IDDichVu
-                                                let index = dichVuList.findIndex((element) => element.IDDichVu === curIDDichVu)
-                                                let curTongTienDV = dichVuList[index].TongTienDV
-                                                let array = dichVuList
-                                                array[index].SoLuong = event.target.value
-                                                array[index].TongTienDV = array[index].SoLuong * array[index].DonGia
-                                                let thayDoiTongTien = array[index].TongTienDV - curTongTienDV
-                                                setTongTienDH(tongTienDH + thayDoiTongTien)
-                                                setDichVuList(array)
-                                                reRender()
-                                            }
-                                        }}
-                                    // error={tenDichVuError}
-                                    /></StyledTableCell>
+                                    <StyledTableCell align="center">
+                                        <TextField
+                                            required
+                                            value={dichVu.SoLuong}
+                                            style={{ width: 100, maxHeight: 50 }}
+                                            variant="outlined"
+                                            onChange={(event) => {
+                                                if (isNaN(+event.target.value) || event.target.value < 0) {
+                                                    event.target.value = 0
+                                                }
+                                                else {
+                                                    let curIDDichVu = dichVu.IDDichVu
+                                                    let index = dichVuList.findIndex((element) => element.IDDichVu === curIDDichVu)
+                                                    let curTongTienDV = dichVuList[index].TongTienDV
+                                                    let array = dichVuList
+                                                    array[index].SoLuong = event.target.value
+                                                    array[index].TongTienDV = array[index].SoLuong * array[index].DonGia
+                                                    let thayDoiTongTien = array[index].TongTienDV - curTongTienDV
+                                                    setTongTienDH(tongTienDH + thayDoiTongTien)
+                                                    setDichVuList(array)
+                                                    reRender()
+                                                }
+                                            }}
+                                        />
+                                    </StyledTableCell>
                                     <StyledTableCell align="center">{dichVu.DonGia}</StyledTableCell>
                                     <StyledTableCell align="center">{dichVu.TongTienDV}</StyledTableCell>
                                 </StyledTableRow>
