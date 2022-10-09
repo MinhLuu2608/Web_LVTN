@@ -6,11 +6,17 @@ import MenuItem from '@mui/material/MenuItem'
 import FormControl from '@mui/material/FormControl'
 import Select from '@mui/material/Select'
 import Button from '@mui/material/Button'
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, } from 'recharts';
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, } from 'recharts'
+import SnackBarContext from '../SnackBar/SnackBarContext';
+import { setMessage, setOpenSnackBar, setSeverity } from '../SnackBar/SnackBarAction';
 
 export default function ThongKeKhachHang() {
 
+    const [, dispatch] = React.useContext(SnackBarContext)
+
     const [data, setData] = React.useState([])
+    const [dataKey, setDataKey] = React.useState("")
+    const [dataValueKey, setDataValueKey] = React.useState("")
     const [loai, setLoai] = React.useState(-1)
     const [quanHuyenList, setQuanHuyenList] = React.useState([])
     const [tuyenThuList, setTuyenThuList] = React.useState([])
@@ -49,6 +55,51 @@ export default function ThongKeKhachHang() {
         }
     }, [thuocQuan])
 
+    React.useEffect(() => {
+        var valid = true
+        if (loai === 2 && thuocQuan === "") {
+            valid = false
+            dispatch(setOpenSnackBar())
+            dispatch(setMessage("Hãy chọn quận huyện."))
+            dispatch(setSeverity("warning"))
+        }
+        if (loai === 1) {
+            if (thuocQuan === "" || thuocTuyen === "") {
+                valid = false
+                dispatch(setOpenSnackBar())
+                dispatch(setMessage("Hãy chọn quận huyện và tuyến thu."))
+                dispatch(setSeverity("warning"))
+            }
+        }
+        if (valid) {
+            if (loai === -1) {
+                fetch(`http://localhost:5199/api/thongke/khachhangtheoquan`)
+                    .then(response => response.json())
+                    .then(function (rows) {
+                        setData(rows)
+                    })
+                setDataKey("TenQuanHuyen")
+
+            }
+            if (loai === 2) {
+                fetch(`http://localhost:5199/api/thongke/khachhangtheotuyen/${thuocQuan}`)
+                    .then(response => response.json())
+                    .then(function (rows) {
+                        setData(rows)
+                    })
+                setDataKey("TenTuyenThu")
+            }
+            if (loai === 1) {
+                fetch(`http://localhost:5199/api/thongke/khachhangtheoxp/${thuocTuyen}`)
+                    .then(response => response.json())
+                    .then(function (rows) {
+                        setData(rows)
+                    })
+                setDataKey("TenXaPhuong")
+            }
+        }
+    }, [updateState])
+
     return (
         <Stack direction="column" spacing={2} alignItems="center">
             <Typography
@@ -56,7 +107,7 @@ export default function ThongKeKhachHang() {
                 sx={{ fontSize: 30, color: "var(--color2)", fontWeight: "bold" }}
                 align="center"
             >
-                Thống kê khách hàng
+                Thống kê khách hàng hiện tại
             </Typography>
             <Stack direction="row" spacing={2} alignItems="center">
                 <FormControl style={{ width: 160, paddingRight: 20 }}>
@@ -116,7 +167,7 @@ export default function ThongKeKhachHang() {
             </Stack>
             <BarChart
                 width={1000}
-                height={300}
+                height={500}
                 data={data}
                 margin={{
                     top: 5,
@@ -126,12 +177,11 @@ export default function ThongKeKhachHang() {
                 }}
             >
                 <CartesianGrid strokeDasharray="2 2" />
-                <XAxis dataKey="name" />
+                <XAxis dataKey={dataKey} />
                 <YAxis />
                 <Tooltip />
                 <Legend />
-                <Bar dataKey="pv" fill="#8884d8" />
-                <Bar dataKey="uv" fill="#82ca9d" />
+                <Bar dataKey="Khách hàng" fill="#8884d8" />
             </BarChart>
         </Stack>
     );

@@ -161,7 +161,7 @@ export default function ThongKeDoanhThu() {
                 <YAxis />
                 <Tooltip />
                 <Legend />
-                <Bar dataKey="DoanhThu" fill="#8884d8" />
+                <Bar dataKey="Doanh thu" fill="#8884d8" />
                 {/* <Bar dataKey="uv" fill="#82ca9d" /> */}
             </BarChart>
         </Stack>
