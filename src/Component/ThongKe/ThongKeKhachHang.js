@@ -166,7 +166,7 @@ export default function ThongKeKhachHang() {
                 <Button variant="contained" sx={{ width: 150, height: 50 }} onClick={handleConfirm}>Xác nhận</Button>
             </Stack>
             <BarChart
-                width={1000}
+                width={1100}
                 height={500}
                 data={data}
                 margin={{
