@@ -7,14 +7,14 @@ import Employee from './Component/Employee/Employee'
 import DistrictAndWard from './Component/DistrictAndWard/DistrictAndWard';
 import TuyenThuMain from './Component/TuyenThu/TuyenThuMain';
 import KyThuMain from './Component/KyThu/KyThuMain';
-import EmployeeReceipt from './Component/EmployeeReceipt/EmployeeReceipt';
+// import EmployeeReceipt from './Component/EmployeeReceipt/EmployeeReceipt';
 import HomePrivateStaff from './Component/Home/HomePrivateStaff';
 import Customer from './Component/Customer/Customer';
 import ReceiptMain from './Component/Receipt/ReceiptMain';
 import ServiceMain from './Component/Services/ServiceMain';
 import OrderMain from './Component/ServiceOrder/OrderMain';
-import ProcessOrderMain from './Component/NeedProcessOrder/OrderMain';
-import ReceivedOrderMain from './Component/ReceivedOrder/ReceivedOrderMain';
+// import ProcessOrderMain from './Component/NeedProcessOrder/OrderMain';
+// import ReceivedOrderMain from './Component/ReceivedOrder/ReceivedOrderMain';
 import ReceivedOrderEdit from './Component/ReceivedOrder/ReceivedOrderEdit';
 import HomeChangePass from './Component/Home/HomeChangePass';
 import ThongKeMain from './Component/ThongKe/ThongKeMain';
@@ -33,16 +33,16 @@ function App() {
             <Route path='changepass' element={<HomeChangePass />} />
             <Route path='customer' element={<Customer collectCustomer={false} />} />
             <Route path='districtandward' element={<DistrictAndWard />} />
-            <Route path='empreceipt' element={<EmployeeReceipt />} />
+            {/* <Route path='empreceipt' element={<EmployeeReceipt />} /> */}
             <Route path='employee' element={<Employee />} />
             <Route path='kythu' element={<KyThuMain />} />
-            <Route path='collectcustomer' element={<Customer collectCustomer={true} />} />
+            {/* <Route path='collectcustomer' element={<Customer collectCustomer={true} />} /> */}
             <Route path='tuyenthu' element={<TuyenThuMain />} />
             <Route path='hoadon' element={<ReceiptMain />} />
             <Route path='service' element={<ServiceMain />} />
             <Route path='order' element={<OrderMain />} />
-            <Route path='processorder' element={<ProcessOrderMain />} />
-            <Route path='receivedorder' element={<ReceivedOrderMain />} />
+            {/* <Route path='processorder' element={<ProcessOrderMain />} />
+            <Route path='receivedorder' element={<ReceivedOrderMain />} /> */}
             <Route path='receivedorder/edit/:id' element={<ReceivedOrderEdit />} />
             <Route path='thongke' element={<ThongKeMain />} />
           </Route>
