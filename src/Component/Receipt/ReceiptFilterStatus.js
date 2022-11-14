@@ -16,8 +16,14 @@ export default function ReceiptFilterStatus({ disable, tuyenThu, changeTuyenThu,
                 <Select
                     disabled={disable}
                     value={thanhToan}
-                    label="Hình thức thanh toán"
-                    onChange={event => changeThanhToan(event.target.value)}
+                    label="Hình thức thanh toán "
+                    onChange={event => {
+                        if (event.target.value === -1 || event.target.value === 2) {
+                            changeThanhToan(event.target.value)
+                            changeTuyenThu(-1)
+                        }
+                        else changeThanhToan(event.target.value)
+                    }}
                 >
                     <MenuItem key="1" value={1}>Trực tiếp</MenuItem>
                     <MenuItem key="2" value={2}>Online</MenuItem>

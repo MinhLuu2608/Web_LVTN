@@ -13,7 +13,7 @@ import { DatePicker } from '@mui/x-date-pickers/DatePicker'
 import { generate } from '@wcj/generate-password'
 import SnackBarContext from '../SnackBar/SnackBarContext'
 import { setMessage, setOpenSnackBar, setSeverity } from '../SnackBar/SnackBarAction'
-
+import md5 from 'md5'
 
 const style = {
     position: 'absolute',
@@ -73,8 +73,6 @@ export default function EmployeeFormAdd({ employees, handleResetPage }) {
 
 
     const handleClose = () => setOpen(false);
-
-    var md5 = require('md5');
 
 
     function validateEmail(email) {
@@ -179,9 +177,6 @@ export default function EmployeeFormAdd({ employees, handleResetPage }) {
             newMaNhanVien = 'NV' + newMaNhanVien;
             //create taikhoan
 
-            //hash default Matkhau
-            // var md5 = require('md5');
-            // var matkhau = md5('shizen123');
             //default profile picture
             var profilePicture = 'anonymous.png';
 
@@ -203,8 +198,7 @@ export default function EmployeeFormAdd({ employees, handleResetPage }) {
                     CCCD: cccd,
                     ProfilePicture: profilePicture,
                     TaiKhoan: taiKhoan,
-                    MatKhau: matKhau
-                    // MatKhau: md5(matKhau)
+                    MatKhau: md5(matKhau)
                 })
             })
                 .then(res => res.json())

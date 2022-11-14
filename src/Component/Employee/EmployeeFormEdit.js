@@ -48,7 +48,6 @@ export default function EmployeeFormEdit({ employee, employeeList, empRolesEdit,
         gioiTinh: employee.GioiTinh,
         ngaysinh: employee.NgaySinh
     });
-    var md5 = require('md5');
     const [emailError, setEmailError] = React.useState(false);
     const [tennhanvienError, setTenNhanVienError] = React.useState(false);
     const [sdtError, setSdtError] = React.useState(false);
