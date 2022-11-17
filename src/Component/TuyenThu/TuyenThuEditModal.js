@@ -90,7 +90,7 @@ export default function TuyenThuEditModal({ idTuyenThu, tenTuyenThu, idNhanVien,
             >
                 <Box sx={style}>
                     <Typography variant="h5" style={{ paddingBottom: 40 }}>
-                        Sửa thông tin tuyến thu
+                        Chỉnh sửa nhân viên quản lý tuyến
                     </Typography>
                     {/* <Typography variant="h5" style={{ paddingBottom: 40 }}>
                         {tenTuyenThu}
