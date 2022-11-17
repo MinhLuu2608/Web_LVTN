@@ -48,7 +48,7 @@ export default function OrderDetailModal({ orderInfo }) {
     const [tableSX, setTableSX] = React.useState({})
 
     const handleOpen = () => {
-        setTableSX({ width: 760, border: 'solid black 1px', marginTop: 1, overflowY: 'scroll', overflowX: 'hidden', maxHeight: 300 })
+        setTableSX({ width: 760, border: 'solid black 1px', marginTop: 1, maxHeight: 300 })
         setOpen(true);
     }
 
